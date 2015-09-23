@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="40dp" 
+    android:gravity="center_horizontal">
+    
+    <ProgressBar
+        android:id="@+id/loadmore_default_footer_progressbar"
+        style="?android:attr/progressBarStyleSmallInverse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="15dp"
+        android:visibility="gone"
+        android:layout_gravity="center" />
+
+    <TextView
+        android:id="@+id/loadmore_default_footer_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="点击加载更多"
+        android:textColor="#a5a5a5"
+        android:textSize="14sp" />
+
+</LinearLayout>
+
+<!-- <?xml version="1.0" encoding="utf-8"?> -->
+<!-- <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" -->
+<!--     android:layout_width="match_parent" -->
+<!--     android:layout_height="40dp" > -->
+
+<!--     <TextView -->
+<!--         android:id="@+id/loadmore_default_footer_tv" -->
+<!--         android:layout_width="127dp" -->
+<!--         android:layout_height="wrap_content" -->
+<!--         android:layout_centerInParent="true" -->
+<!--         android:gravity="center" -->
+<!--         android:text="点击加载更多" -->
+<!--         android:textColor="#a5a5a5" -->
+<!--         android:textSize="14sp" /> -->
+
+<!--     <ProgressBar -->
+<!--         android:id="@+id/loadmore_default_footer_progressbar" -->
+<!--         style="@android:style/Widget.ProgressBar.Small" -->
+<!--         android:layout_width="wrap_content" -->
+<!--         android:layout_height="wrap_content" -->
+<!--         android:layout_centerVertical="true" -->
+<!--         android:layout_marginRight="10dp" -->
+<!--         android:layout_toLeftOf="@id/loadmore_default_footer_tv" -->
+<!--         android:visibility="gone" -->
+<!--         android:layout_gravity="center" /> -->
+
+<!-- </RelativeLayout> -->

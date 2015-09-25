@@ -12,7 +12,7 @@ Widget with pull to refresh for Android,support loadMore for ListView and Recycl
  
  具体用法可参见Demo
  
- ###License
+###License
  
     LICENSE-2.0
 

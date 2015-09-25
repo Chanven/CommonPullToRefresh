@@ -6,4 +6,5 @@ Widget with pull to refresh for Android,support loadMore for ListView and Recycl
 * 加载更多目前只支持`ListView`和`ScrollView`
 
  效果图
+ 
  ![Image](https://github.com/Chanven/CommonPullToRefresh/blob/master/raw/listview.gif) ![Image](https://github.com/Chanven/CommonPullToRefresh/blob/master/raw/recyclerview.gif)

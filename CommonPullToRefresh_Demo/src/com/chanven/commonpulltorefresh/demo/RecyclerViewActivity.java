@@ -20,6 +20,7 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
@@ -85,13 +86,13 @@ public class RecyclerViewActivity extends Activity{
 						page = 0;
 						mData.clear();
 						for (int i = 0; i < 17; i++) {
-							mData.add(new String("  ListView item  -" + i));
+							mData.add(new String("  RecyclerView item  -" + i));
 						}
 						mAdapter.notifyDataSetChanged();
 						ptrClassicFrameLayout.refreshComplete();
 						ptrClassicFrameLayout.setLoadMoreEnable(true);
 					}
-				}, 1000);
+				}, 2000);
 			}
 		});
 
@@ -103,7 +104,7 @@ public class RecyclerViewActivity extends Activity{
 
 					@Override
 					public void run() {
-						mData.add(new String("  ListView item  - add " + page));
+						mData.add(new String("  RecyclerView item  - add " + page));
 						mAdapter.notifyDataSetChanged();
 						ptrClassicFrameLayout.loadMoreComplete(true);
 						page++;
@@ -134,6 +135,7 @@ public class RecyclerViewActivity extends Activity{
 		public void onBindViewHolder(ViewHolder viewHolder, int position) {
 			ChildViewHolder holder = (ChildViewHolder) viewHolder;
 			holder.itemTv.setText(datas.get(position));
+			holder.itemTv.setTextColor(Color.BLACK);
 		}
 
 		@Override

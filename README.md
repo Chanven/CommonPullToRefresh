@@ -7,7 +7,7 @@ Android widget with pull to refresh for all the views,and support loadMore for L
 * 加载更多目前只支持`ListView`和`RecyclerView`
 * 支持自定义header以及footer
 
-[Demo APK下载](https://github.com/Chanven/CommonPullToRefresh/blob/master/raw/CommonPullToRefresh_Demo.apk)
+[Demo APK下载](https://github.com/Chanven/CommonPullToRefresh/blob/master/raw/CommonPullToRefresh_Demo.apk?raw=true)
 
 ####ListView截图
  ![Image](https://github.com/Chanven/CommonPullToRefresh/blob/master/raw/listview.gif)

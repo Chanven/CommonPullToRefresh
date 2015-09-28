@@ -14,6 +14,7 @@ Android widget with pull to refresh for all the views,and support loadMore for L
 ####RecyclerView截图
  ![Image](https://github.com/Chanven/CommonPullToRefresh/blob/master/raw/recyclerview.gif)
  
+
  具体用法可参见Demo
  
 

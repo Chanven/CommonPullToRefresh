@@ -27,4 +27,12 @@
         android:text="@string/recyclerview_with_loadmore"
         android:textAllCaps="false" />
     
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:onClick="goGridView"
+        android:text="@string/gridview_with_loadmore"
+        android:textAllCaps="false" />
+    
 </LinearLayout>

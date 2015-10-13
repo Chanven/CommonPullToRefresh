@@ -6,5 +6,6 @@
     <string name="hello_world">Hello world!</string>
     <string name="listView_with_loadmore">ListView with loadmore</string>
     <string name="recyclerview_with_loadmore">Recyclerview with loadmore</string>
+    <string name="gridview_with_loadmore">GridView With LoadMore</string>
 
 </resources>

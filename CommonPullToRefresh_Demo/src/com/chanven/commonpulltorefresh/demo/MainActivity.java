@@ -35,4 +35,8 @@ public class MainActivity extends Activity {
 	public void goRecyclerView(View view) {
 		startActivity(new Intent(this, RecyclerViewActivity.class));
 	}
+	
+	public void goGridView(View view) {
+		startActivity(new Intent(this, GridViewAtivity.class));
+	}
 }

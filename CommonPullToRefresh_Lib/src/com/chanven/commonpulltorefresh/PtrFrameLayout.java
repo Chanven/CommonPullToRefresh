@@ -10,11 +10,13 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.GridView;
 import android.widget.Scroller;
 import android.widget.TextView;
 
 import com.chanven.commonpulltorefresh.indicator.PtrIndicator;
 import com.chanven.commonpulltorefresh.loadmore.DefaultLoadMoreViewFactory;
+import com.chanven.commonpulltorefresh.loadmore.GridViewHandler;
 import com.chanven.commonpulltorefresh.loadmore.ILoadViewMoreFactory;
 import com.chanven.commonpulltorefresh.loadmore.ILoadViewMoreFactory.ILoadMoreView;
 import com.chanven.commonpulltorefresh.loadmore.ListViewHandler;
@@ -1044,6 +1046,7 @@ public class PtrFrameLayout extends ViewGroup {
     private ILoadViewMoreFactory loadViewFactory = new DefaultLoadMoreViewFactory();
     private ListViewHandler listViewHandler = new ListViewHandler();
     private RecyclerViewHandler recyclerViewHandler = new RecyclerViewHandler();
+    private GridViewHandler gridViewHandler = new GridViewHandler();
     
     private View mContentView;
     private ILoadMoreView mLoadMoreView;
@@ -1056,6 +1059,12 @@ public class PtrFrameLayout extends ViewGroup {
 		if (!hasInitLoadMoreView && isLoadMoreEnable) {
 			mContentView = getContentView();
 			mLoadMoreView = loadViewFactory.madeLoadMoreView();
+			if (mContentView instanceof GridView) {
+				hasInitLoadMoreView = gridViewHandler.handleSetAdapter(mContentView, mLoadMoreView,
+						onClickLoadMoreListener);
+				gridViewHandler.setOnScrollBottomListener(mContentView, onScrollBottomListener);
+				return;
+			}
 			if (mContentView instanceof AbsListView) {
 				hasInitLoadMoreView = listViewHandler.handleSetAdapter(mContentView, mLoadMoreView,
 						onClickLoadMoreListener);

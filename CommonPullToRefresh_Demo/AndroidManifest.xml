@@ -27,6 +27,9 @@
         <activity 
             android:name="com.chanven.commonpulltorefresh.demo.RecyclerViewActivity"
             android:label="@string/recyclerview_with_loadmore"/>
+        <activity 
+            android:name="com.chanven.commonpulltorefresh.demo.GridViewAtivity"
+            android:label="@string/gridview_with_loadmore"/>
     </application>
 
 </manifest>

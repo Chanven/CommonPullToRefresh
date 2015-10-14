@@ -1,3 +1,18 @@
+/*
+Copyright 2015 chanven
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+ */
 package com.chanven.commonpulltorefresh.demo;
 
 import java.util.ArrayList;
@@ -5,6 +20,7 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -20,6 +36,11 @@ import com.chanven.commonpulltorefresh.PtrFrameLayout;
 import com.chanven.commonpulltorefresh.PtrFrameLayout.LoadMoreHandler;
 import com.chanven.commonpulltorefresh.loadmore.GridViewWithHeaderAndFooter;
 
+/**
+ * GridView with loadmore
+ * @author Chanven
+ * @date 2015-10-13 上午9:27:38
+ */
 public class GridViewAtivity extends Activity{
 	PtrClassicFrameLayout ptrClassicFrameLayout;
 	GridViewWithHeaderAndFooter mGridView;
@@ -81,6 +102,7 @@ public class GridViewAtivity extends Activity{
 							mData.add(new String("GridView item -- add" + page));
 						}
 						mAdapter.notifyDataSetChanged();
+						ptrClassicFrameLayout.loadMoreComplete(true);
 						page++;
 						Toast.makeText(GridViewAtivity.this, "load more complete", Toast.LENGTH_SHORT)
 								.show();
@@ -123,6 +145,7 @@ public class GridViewAtivity extends Activity{
 			}
 			TextView textView = (TextView) convertView;
 			textView.setText(datas.get(position));
+			textView.setTextColor(Color.BLACK);
 			return convertView;
 		}
 

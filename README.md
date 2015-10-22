@@ -1,5 +1,5 @@
 # CommonPullToRefresh
-Android widget with pull to refresh for all the views,and support loadMore for ListView and RecyclerView.
+Android widget with pull to refresh for all the views,and support loadMore for ListView,RecyclerView and GridView.
 
 在[android-Ultra-Pull-To-Refresh](https://github.com/liaohuqiu/android-Ultra-Pull-To-Refresh)的基础上增加了加载更多的支持，感谢作者
 

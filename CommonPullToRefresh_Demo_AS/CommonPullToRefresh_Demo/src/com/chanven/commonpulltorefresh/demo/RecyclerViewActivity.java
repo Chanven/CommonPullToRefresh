@@ -23,10 +23,13 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.RecyclerView.Adapter;
+import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,34 +37,37 @@ import com.chanven.commonpulltorefresh.PtrClassicFrameLayout;
 import com.chanven.commonpulltorefresh.PtrDefaultHandler;
 import com.chanven.commonpulltorefresh.PtrFrameLayout;
 import com.chanven.commonpulltorefresh.PtrFrameLayout.LoadMoreHandler;
-import com.chanven.commonpulltorefresh.loadmore.GridViewWithHeaderAndFooter;
+import com.chanven.commonpulltorefresh.recyclerview.RecyclerAdapterWithHF;
 
 /**
- * GridView with loadmore
+ * RecyclerView with loadmore
  * @author Chanven
- * @date 2015-10-13
+ * @date 2015-9-21 
  */
-public class GridViewAtivity extends Activity{
+public class RecyclerViewActivity extends Activity{
 	PtrClassicFrameLayout ptrClassicFrameLayout;
-	GridViewWithHeaderAndFooter mGridView;
-	GridViewAdapter mAdapter;
+	RecyclerView mRecyclerView;
 	private List<String> mData = new ArrayList<String>();
+	private RecyclerAdapter adapter;
+	private RecyclerAdapterWithHF mAdapter;
 	Handler handler = new Handler();
-	
+
 	int page = 0;
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.girdview_layout);
-		ptrClassicFrameLayout = (PtrClassicFrameLayout) this.findViewById(R.id.test_grid_view_frame);
-		mGridView = (GridViewWithHeaderAndFooter) this.findViewById(R.id.test_grid_view);
-		initData();
+		setContentView(R.layout.recyclerview_layout);
+		
+		ptrClassicFrameLayout = (PtrClassicFrameLayout) this.findViewById(R.id.test_recycler_view_frame);
+		mRecyclerView = (RecyclerView) this.findViewById(R.id.test_recycler_view);
+		init();
 	}
 	
-	private void initData() {
-		mAdapter = new GridViewAdapter(this, mData);
-		mGridView.setAdapter(mAdapter);
+	private void init() {
+		adapter = new RecyclerAdapter(this, mData);
+		mAdapter = new RecyclerAdapterWithHF(adapter);
+		mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+		mRecyclerView.setAdapter(mAdapter);
 		ptrClassicFrameLayout.postDelayed(new Runnable() {
 
 			@Override
@@ -79,14 +85,14 @@ public class GridViewAtivity extends Activity{
 					public void run() {
 						page = 0;
 						mData.clear();
-						for (int i = 0; i < 40; i++) {
-							mData.add(new String("GridView item  -" + i));
+						for (int i = 0; i < 17; i++) {
+							mData.add(new String("  RecyclerView item  -" + i));
 						}
 						mAdapter.notifyDataSetChanged();
 						ptrClassicFrameLayout.refreshComplete();
 						ptrClassicFrameLayout.setLoadMoreEnable(true);
 					}
-				}, 1000);
+				}, 2000);
 			}
 		});
 
@@ -98,13 +104,11 @@ public class GridViewAtivity extends Activity{
 
 					@Override
 					public void run() {
-						for (int i = 0; i < 4; i++) {
-							mData.add(new String("GridView item -- add" + page));
-						}
+						mData.add(new String("  RecyclerView item  - add " + page));
 						mAdapter.notifyDataSetChanged();
 						ptrClassicFrameLayout.loadMoreComplete(true);
 						page++;
-						Toast.makeText(GridViewAtivity.this, "load more complete", Toast.LENGTH_SHORT)
+						Toast.makeText(RecyclerViewActivity.this, "load more complete", Toast.LENGTH_SHORT)
 								.show();
 					}
 				}, 1000);
@@ -112,46 +116,43 @@ public class GridViewAtivity extends Activity{
 		});
 	}
 	
-	
-	public class GridViewAdapter extends BaseAdapter {
+	public class RecyclerAdapter extends Adapter<ViewHolder>{
 		private List<String> datas;
 		private LayoutInflater inflater;
-
-		public GridViewAdapter(Context context, List<String> data) {
+		
+		public RecyclerAdapter(Context context, List<String> data) {
 			super();
 			inflater = LayoutInflater.from(context);
 			datas = data;
 		}
-
+		
 		@Override
-		public int getCount() {
+		public int getItemCount() {
 			return datas.size();
 		}
 
 		@Override
-		public Object getItem(int position) {
-			return null;
+		public void onBindViewHolder(ViewHolder viewHolder, int position) {
+			ChildViewHolder holder = (ChildViewHolder) viewHolder;
+			holder.itemTv.setText(datas.get(position));
+			holder.itemTv.setTextColor(Color.BLACK);
 		}
 
 		@Override
-		public long getItemId(int position) {
-			return 0;
+		public ViewHolder onCreateViewHolder(ViewGroup viewHolder, int position) {
+			View view = inflater.inflate(android.R.layout.simple_list_item_1, null);
+			return new ChildViewHolder(view);
 		}
+		
+	}
+	
+	public class ChildViewHolder extends ViewHolder{
+		public TextView itemTv;
 
-		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
-			if (convertView == null) {
-				convertView = inflater.inflate(android.R.layout.simple_list_item_1, parent, false);
-			}
-			TextView textView = (TextView) convertView;
-			textView.setText(datas.get(position));
-			textView.setTextColor(Color.BLACK);
-			return convertView;
+		public ChildViewHolder(View view) {
+			super(view);
+			itemTv = (TextView) view;
 		}
-
-		public List<String> getData() {
-			return datas;
-		}
-
+		
 	}
 }

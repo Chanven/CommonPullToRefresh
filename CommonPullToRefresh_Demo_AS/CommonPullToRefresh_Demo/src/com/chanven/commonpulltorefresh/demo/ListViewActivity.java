@@ -20,13 +20,13 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,34 +34,33 @@ import com.chanven.commonpulltorefresh.PtrClassicFrameLayout;
 import com.chanven.commonpulltorefresh.PtrDefaultHandler;
 import com.chanven.commonpulltorefresh.PtrFrameLayout;
 import com.chanven.commonpulltorefresh.PtrFrameLayout.LoadMoreHandler;
-import com.chanven.commonpulltorefresh.loadmore.GridViewWithHeaderAndFooter;
 
 /**
- * GridView with loadmore
+ * ListView with loadmore
  * @author Chanven
- * @date 2015-10-13
+ * @date 2015-9-21 
  */
-public class GridViewAtivity extends Activity{
+public class ListViewActivity extends Activity {
 	PtrClassicFrameLayout ptrClassicFrameLayout;
-	GridViewWithHeaderAndFooter mGridView;
-	GridViewAdapter mAdapter;
+	ListView mListView;
 	private List<String> mData = new ArrayList<String>();
+	private ListViewAdapter mAdapter;
 	Handler handler = new Handler();
-	
+
 	int page = 0;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.girdview_layout);
-		ptrClassicFrameLayout = (PtrClassicFrameLayout) this.findViewById(R.id.test_grid_view_frame);
-		mGridView = (GridViewWithHeaderAndFooter) this.findViewById(R.id.test_grid_view);
+		setContentView(R.layout.listview_layout);
+		ptrClassicFrameLayout = (PtrClassicFrameLayout) this.findViewById(R.id.test_list_view_frame);
+		mListView = (ListView) this.findViewById(R.id.test_list_view);
 		initData();
 	}
-	
+
 	private void initData() {
-		mAdapter = new GridViewAdapter(this, mData);
-		mGridView.setAdapter(mAdapter);
+		mAdapter = new ListViewAdapter(this, mData);
+		mListView.setAdapter(mAdapter);
 		ptrClassicFrameLayout.postDelayed(new Runnable() {
 
 			@Override
@@ -79,8 +78,8 @@ public class GridViewAtivity extends Activity{
 					public void run() {
 						page = 0;
 						mData.clear();
-						for (int i = 0; i < 40; i++) {
-							mData.add(new String("GridView item  -" + i));
+						for (int i = 0; i < 17; i++) {
+							mData.add(new String("  ListView item  -" + i));
 						}
 						mAdapter.notifyDataSetChanged();
 						ptrClassicFrameLayout.refreshComplete();
@@ -98,26 +97,23 @@ public class GridViewAtivity extends Activity{
 
 					@Override
 					public void run() {
-						for (int i = 0; i < 4; i++) {
-							mData.add(new String("GridView item -- add" + page));
-						}
+						mData.add(new String("  ListView item  - add " + page));
 						mAdapter.notifyDataSetChanged();
 						ptrClassicFrameLayout.loadMoreComplete(true);
 						page++;
-						Toast.makeText(GridViewAtivity.this, "load more complete", Toast.LENGTH_SHORT)
+						Toast.makeText(ListViewActivity.this, "load more complete", Toast.LENGTH_SHORT)
 								.show();
 					}
 				}, 1000);
 			}
 		});
 	}
-	
-	
-	public class GridViewAdapter extends BaseAdapter {
+
+	public class ListViewAdapter extends BaseAdapter {
 		private List<String> datas;
 		private LayoutInflater inflater;
 
-		public GridViewAdapter(Context context, List<String> data) {
+		public ListViewAdapter(Context context, List<String> data) {
 			super();
 			inflater = LayoutInflater.from(context);
 			datas = data;
@@ -145,7 +141,6 @@ public class GridViewAtivity extends Activity{
 			}
 			TextView textView = (TextView) convertView;
 			textView.setText(datas.get(position));
-			textView.setTextColor(Color.BLACK);
 			return convertView;
 		}
 
@@ -154,4 +149,5 @@ public class GridViewAtivity extends Activity{
 		}
 
 	}
+
 }

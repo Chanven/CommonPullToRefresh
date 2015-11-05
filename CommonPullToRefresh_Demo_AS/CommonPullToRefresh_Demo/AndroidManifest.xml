@@ -30,6 +30,9 @@
         <activity 
             android:name="com.chanven.commonpulltorefresh.demo.GridViewAtivity"
             android:label="@string/gridview_with_loadmore"/>
+        <activity
+            android:name="com.chanven.commonpulltorefresh.demo.SwipeListViewActivity"
+            android:label="@string/swipe_listview_with_loadmore"/>
     </application>
 
 </manifest>

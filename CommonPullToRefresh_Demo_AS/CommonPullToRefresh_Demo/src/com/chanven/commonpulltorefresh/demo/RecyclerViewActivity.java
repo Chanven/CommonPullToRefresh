@@ -15,9 +15,6 @@ limitations under the License.
  */
 package com.chanven.commonpulltorefresh.demo;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
@@ -36,123 +33,128 @@ import android.widget.Toast;
 import com.chanven.commonpulltorefresh.PtrClassicFrameLayout;
 import com.chanven.commonpulltorefresh.PtrDefaultHandler;
 import com.chanven.commonpulltorefresh.PtrFrameLayout;
-import com.chanven.commonpulltorefresh.PtrFrameLayout.LoadMoreHandler;
+import com.chanven.commonpulltorefresh.loadmore.OnLoadMoreListener;
 import com.chanven.commonpulltorefresh.recyclerview.RecyclerAdapterWithHF;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * RecyclerView with loadmore
+ *
  * @author Chanven
- * @date 2015-9-21 
+ * @date 2015-9-21
  */
-public class RecyclerViewActivity extends Activity{
-	PtrClassicFrameLayout ptrClassicFrameLayout;
-	RecyclerView mRecyclerView;
-	private List<String> mData = new ArrayList<String>();
-	private RecyclerAdapter adapter;
-	private RecyclerAdapterWithHF mAdapter;
-	Handler handler = new Handler();
+public class RecyclerViewActivity extends Activity {
+    PtrClassicFrameLayout ptrClassicFrameLayout;
+    RecyclerView mRecyclerView;
+    private List<String> mData = new ArrayList<String>();
+    private RecyclerAdapter adapter;
+    private RecyclerAdapterWithHF mAdapter;
+    Handler handler = new Handler();
 
-	int page = 0;
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.recyclerview_layout);
-		
-		ptrClassicFrameLayout = (PtrClassicFrameLayout) this.findViewById(R.id.test_recycler_view_frame);
-		mRecyclerView = (RecyclerView) this.findViewById(R.id.test_recycler_view);
-		init();
-	}
-	
-	private void init() {
-		adapter = new RecyclerAdapter(this, mData);
-		mAdapter = new RecyclerAdapterWithHF(adapter);
-		mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-		mRecyclerView.setAdapter(mAdapter);
-		ptrClassicFrameLayout.postDelayed(new Runnable() {
+    int page = 0;
 
-			@Override
-			public void run() {
-				ptrClassicFrameLayout.autoRefresh(true);
-			}
-		}, 150);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.recyclerview_layout);
 
-		ptrClassicFrameLayout.setPtrHandler(new PtrDefaultHandler() {
+        ptrClassicFrameLayout = (PtrClassicFrameLayout) this.findViewById(R.id.test_recycler_view_frame);
+        mRecyclerView = (RecyclerView) this.findViewById(R.id.test_recycler_view);
+        init();
+    }
 
-			@Override
-			public void onRefreshBegin(PtrFrameLayout frame) {
-				handler.postDelayed(new Runnable() {
-					@Override
-					public void run() {
-						page = 0;
-						mData.clear();
-						for (int i = 0; i < 17; i++) {
-							mData.add(new String("  RecyclerView item  -" + i));
-						}
-						mAdapter.notifyDataSetChanged();
-						ptrClassicFrameLayout.refreshComplete();
-						ptrClassicFrameLayout.setLoadMoreEnable(true);
-					}
-				}, 2000);
-			}
-		});
+    private void init() {
+        adapter = new RecyclerAdapter(this, mData);
+        mAdapter = new RecyclerAdapterWithHF(adapter);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.setAdapter(mAdapter);
+        ptrClassicFrameLayout.postDelayed(new Runnable() {
 
-		ptrClassicFrameLayout.setLoadMoreHandler(new LoadMoreHandler() {
+            @Override
+            public void run() {
+                ptrClassicFrameLayout.autoRefresh(true);
+            }
+        }, 150);
 
-			@Override
-			public void loadMore() {
-				handler.postDelayed(new Runnable() {
+        ptrClassicFrameLayout.setPtrHandler(new PtrDefaultHandler() {
 
-					@Override
-					public void run() {
-						mData.add(new String("  RecyclerView item  - add " + page));
-						mAdapter.notifyDataSetChanged();
-						ptrClassicFrameLayout.loadMoreComplete(true);
-						page++;
-						Toast.makeText(RecyclerViewActivity.this, "load more complete", Toast.LENGTH_SHORT)
-								.show();
-					}
-				}, 1000);
-			}
-		});
-	}
-	
-	public class RecyclerAdapter extends Adapter<ViewHolder>{
-		private List<String> datas;
-		private LayoutInflater inflater;
-		
-		public RecyclerAdapter(Context context, List<String> data) {
-			super();
-			inflater = LayoutInflater.from(context);
-			datas = data;
-		}
-		
-		@Override
-		public int getItemCount() {
-			return datas.size();
-		}
+            @Override
+            public void onRefreshBegin(PtrFrameLayout frame) {
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        page = 0;
+                        mData.clear();
+                        for (int i = 0; i < 17; i++) {
+                            mData.add(new String("  RecyclerView item  -" + i));
+                        }
+                        mAdapter.notifyDataSetChanged();
+                        ptrClassicFrameLayout.refreshComplete();
+                        ptrClassicFrameLayout.setLoadMoreEnable(true);
+                    }
+                }, 2000);
+            }
+        });
 
-		@Override
-		public void onBindViewHolder(ViewHolder viewHolder, int position) {
-			ChildViewHolder holder = (ChildViewHolder) viewHolder;
-			holder.itemTv.setText(datas.get(position));
-			holder.itemTv.setTextColor(Color.BLACK);
-		}
+        ptrClassicFrameLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
 
-		@Override
-		public ViewHolder onCreateViewHolder(ViewGroup viewHolder, int position) {
-			View view = inflater.inflate(android.R.layout.simple_list_item_1, null);
-			return new ChildViewHolder(view);
-		}
-		
-	}
-	
-	public class ChildViewHolder extends ViewHolder{
-		public TextView itemTv;
+            @Override
+            public void loadMore() {
+                handler.postDelayed(new Runnable() {
 
-		public ChildViewHolder(View view) {
-			super(view);
-			itemTv = (TextView) view;
-		}
-		
-	}
+                    @Override
+                    public void run() {
+                        mData.add(new String("  RecyclerView item  - add " + page));
+                        mAdapter.notifyDataSetChanged();
+                        ptrClassicFrameLayout.loadMoreComplete(true);
+                        page++;
+                        Toast.makeText(RecyclerViewActivity.this, "load more complete", Toast.LENGTH_SHORT)
+                                .show();
+                    }
+                }, 1000);
+            }
+        });
+    }
+
+    public class RecyclerAdapter extends Adapter<ViewHolder> {
+        private List<String> datas;
+        private LayoutInflater inflater;
+
+        public RecyclerAdapter(Context context, List<String> data) {
+            super();
+            inflater = LayoutInflater.from(context);
+            datas = data;
+        }
+
+        @Override
+        public int getItemCount() {
+            return datas.size();
+        }
+
+        @Override
+        public void onBindViewHolder(ViewHolder viewHolder, int position) {
+            ChildViewHolder holder = (ChildViewHolder) viewHolder;
+            holder.itemTv.setText(datas.get(position));
+            holder.itemTv.setTextColor(Color.BLACK);
+        }
+
+        @Override
+        public ViewHolder onCreateViewHolder(ViewGroup viewHolder, int position) {
+            View view = inflater.inflate(android.R.layout.simple_list_item_1, null);
+            return new ChildViewHolder(view);
+        }
+
+    }
+
+    public class ChildViewHolder extends ViewHolder {
+        public TextView itemTv;
+
+        public ChildViewHolder(View view) {
+            super(view);
+            itemTv = (TextView) view;
+        }
+
+    }
 }

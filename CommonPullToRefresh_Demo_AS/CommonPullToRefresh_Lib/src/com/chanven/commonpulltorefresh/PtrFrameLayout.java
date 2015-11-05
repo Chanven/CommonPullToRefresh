@@ -20,6 +20,7 @@ import com.chanven.commonpulltorefresh.loadmore.GridViewHandler;
 import com.chanven.commonpulltorefresh.loadmore.ILoadViewMoreFactory;
 import com.chanven.commonpulltorefresh.loadmore.ILoadViewMoreFactory.ILoadMoreView;
 import com.chanven.commonpulltorefresh.loadmore.ListViewHandler;
+import com.chanven.commonpulltorefresh.loadmore.OnLoadMoreListener;
 import com.chanven.commonpulltorefresh.loadmore.OnScrollBottomListener;
 import com.chanven.commonpulltorefresh.loadmore.RecyclerViewHandler;
 import com.chanven.commonpulltorefresh.utils.PtrCLog;
@@ -28,7 +29,7 @@ import com.chanven.commonpulltorefreshview.R;
 /**
  * This layout view for "Pull to Refresh(Ptr)" support all of the view, you can contain everything you want.
  * support: pull to refresh / release to refresh / auto refresh / keep header view while refreshing / hide header view while refreshing
- * It defines {@link in.srain.cube.views.ptr.PtrUIHandler}, which allows you customize the UI easily.
+ * It defines {@link com.chanven.commonpulltorefresh.PtrUIHandler}, which allows you customize the UI easily.
  */
 public class PtrFrameLayout extends ViewGroup {
 
@@ -1052,79 +1053,77 @@ public class PtrFrameLayout extends ViewGroup {
     private ILoadMoreView mLoadMoreView;
     
     public void setLoadMoreEnable(boolean loadMoreEnable) {
-    	if (this.isLoadMoreEnable == loadMoreEnable) {
-			return;
-		}
-    	this.isLoadMoreEnable = loadMoreEnable;
-		if (!hasInitLoadMoreView && isLoadMoreEnable) {
-			mContentView = getContentView();
-			mLoadMoreView = loadViewFactory.madeLoadMoreView();
-			if (mContentView instanceof GridView) {
-				hasInitLoadMoreView = gridViewHandler.handleSetAdapter(mContentView, mLoadMoreView,
-						onClickLoadMoreListener);
-				gridViewHandler.setOnScrollBottomListener(mContentView, onScrollBottomListener);
-				return;
-			}
-			if (mContentView instanceof AbsListView) {
-				hasInitLoadMoreView = listViewHandler.handleSetAdapter(mContentView, mLoadMoreView,
-						onClickLoadMoreListener);
-				listViewHandler.setOnScrollBottomListener(mContentView, onScrollBottomListener);
-			} else if (mContentView instanceof RecyclerView) {
-				hasInitLoadMoreView = recyclerViewHandler.handleSetAdapter(mContentView, mLoadMoreView,
-						onClickLoadMoreListener);
-				recyclerViewHandler.setOnScrollBottomListener(mContentView, onScrollBottomListener);
-			}
-		}
-	}
-    
-    private OnScrollBottomListener onScrollBottomListener = new OnScrollBottomListener() {
-		@Override
-		public void onScorllBootom() {
-			if (isAutoLoadMore && isLoadMoreEnable && !isLoading()) {
-				// 此处可加入网络是否可用的判断
-				loadMore();
-			}
-		}
-	};
-	
-	private OnClickListener onClickLoadMoreListener = new OnClickListener() {
+        if (this.isLoadMoreEnable == loadMoreEnable) {
+            return;
+        }
+        this.isLoadMoreEnable = loadMoreEnable;
+        if (!hasInitLoadMoreView && isLoadMoreEnable) {
+            mContentView = getContentView();
+            mLoadMoreView = loadViewFactory.madeLoadMoreView();
+            if (mContentView instanceof GridView) {
+                hasInitLoadMoreView = gridViewHandler.handleSetAdapter(mContentView, mLoadMoreView,
+                        onClickLoadMoreListener);
+                gridViewHandler.setOnScrollBottomListener(mContentView, onScrollBottomListener);
+                return;
+            }
+            if (mContentView instanceof AbsListView) {
+                hasInitLoadMoreView = listViewHandler.handleSetAdapter(mContentView, mLoadMoreView,
+                        onClickLoadMoreListener);
+                listViewHandler.setOnScrollBottomListener(mContentView, onScrollBottomListener);
+            } else if (mContentView instanceof RecyclerView) {
+                hasInitLoadMoreView = recyclerViewHandler.handleSetAdapter(mContentView, mLoadMoreView,
+                        onClickLoadMoreListener);
+                recyclerViewHandler.setOnScrollBottomListener(mContentView, onScrollBottomListener);
+            }
+        }
+    }
 
-		@Override
-		public void onClick(View v) {
-			loadMore();
-		}
-	};
-	
-	void loadMore(){
-		isLoading = true;
-		mLoadMoreView.showLoading();
-		loadMoreHandler.loadMore();
-	}
-	
-	public void loadMoreComplete(boolean hasMore){
-		isLoading = false;
-		if (hasMore) {
-			mLoadMoreView.showNormal();
-		}else {
-			setNoMoreData();
-		}
-	}
-	
-	public boolean isLoading(){
-		return isLoading;
-	}
-	
-	public void setNoMoreData(){
-		isLoadMoreEnable = false;
-		mLoadMoreView.showNomore();
-	}
-	
-	LoadMoreHandler loadMoreHandler;
-	public void setLoadMoreHandler(LoadMoreHandler loadMoreHandler) {
-		this.loadMoreHandler = loadMoreHandler;
-	}
-	
-	public static interface LoadMoreHandler{
-		public void loadMore();
-	}
+    private OnScrollBottomListener onScrollBottomListener = new OnScrollBottomListener() {
+        @Override
+        public void onScorllBootom() {
+            if (isAutoLoadMore && isLoadMoreEnable && !isLoading()) {
+                // 此处可加入网络是否可用的判断
+                loadMore();
+            }
+        }
+    };
+
+    private OnClickListener onClickLoadMoreListener = new OnClickListener() {
+
+        @Override
+        public void onClick(View v) {
+            loadMore();
+        }
+    };
+
+    void loadMore() {
+        isLoading = true;
+        mLoadMoreView.showLoading();
+        mOnLoadMoreListener.loadMore();
+    }
+
+    public void loadMoreComplete(boolean hasMore) {
+        isLoading = false;
+        if (hasMore) {
+            mLoadMoreView.showNormal();
+        } else {
+            setNoMoreData();
+        }
+    }
+
+    public boolean isLoading() {
+        return isLoading;
+    }
+
+    public void setNoMoreData() {
+        isLoadMoreEnable = false;
+        mLoadMoreView.showNomore();
+    }
+
+    OnLoadMoreListener mOnLoadMoreListener;
+
+    public void setOnLoadMoreListener(OnLoadMoreListener loadMoreListener) {
+        this.mOnLoadMoreListener = loadMoreListener;
+    }
+
 }

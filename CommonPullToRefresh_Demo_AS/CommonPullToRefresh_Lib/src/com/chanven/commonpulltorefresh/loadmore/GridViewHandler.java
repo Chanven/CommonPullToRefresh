@@ -30,91 +30,93 @@ import com.chanven.commonpulltorefresh.loadmore.ILoadViewMoreFactory.ILoadMoreVi
 
 public class GridViewHandler implements ViewHandler {
 
-	@Override
-	public boolean handleSetAdapter(View contentView, ILoadMoreView loadMoreView, OnClickListener onClickLoadMoreListener) {
-		final GridViewWithHeaderAndFooter gridView = (GridViewWithHeaderAndFooter) contentView;
-		ListAdapter adapter = gridView.getAdapter();
-		boolean hasInit = false;
-		if (loadMoreView != null) {
-			final Context context = gridView.getContext().getApplicationContext();
-			loadMoreView.init(new FootViewAdder() {
+    @Override
+    public boolean handleSetAdapter(View contentView, ILoadMoreView loadMoreView, OnClickListener onClickLoadMoreListener) {
+        final GridViewWithHeaderAndFooter gridView = (GridViewWithHeaderAndFooter) contentView;
+        ListAdapter adapter = gridView.getAdapter();
+        boolean hasInit = false;
+        if (loadMoreView != null) {
+            final Context context = gridView.getContext().getApplicationContext();
+            loadMoreView.init(new FootViewAdder() {
 
-				@Override
-				public View addFootView(int layoutId) {
-					View view = LayoutInflater.from(context).inflate(layoutId, gridView, false);
-					return addFootView(view);
-				}
+                @Override
+                public View addFootView(int layoutId) {
+                    View view = LayoutInflater.from(context).inflate(layoutId, gridView, false);
+                    return addFootView(view);
+                }
 
-				@Override
-				public View addFootView(View view) {
-					gridView.addFooterView(view);
-					return view;
-				}
-			}, onClickLoadMoreListener);
-			hasInit = true;
-			if (null != adapter) {
-				gridView.setAdapter(adapter);
-			}
-		}
-		return hasInit;
-	}
+                @Override
+                public View addFootView(View view) {
+                    gridView.addFooterView(view);
+                    return view;
+                }
+            }, onClickLoadMoreListener);
+            hasInit = true;
+            if (null != adapter) {
+                gridView.setAdapter(adapter);
+            }
+        }
+        return hasInit;
+    }
 
-	@Override
-	public void setOnScrollBottomListener(View contentView, OnScrollBottomListener onScrollBottomListener) {
-		GridViewWithHeaderAndFooter gridView = (GridViewWithHeaderAndFooter) contentView;
-		gridView.setOnScrollListener(new GridViewOnScrollListener(onScrollBottomListener));
-		gridView.setOnItemSelectedListener(new GridViewOnItemSelectedListener(onScrollBottomListener));
-	}
+    @Override
+    public void setOnScrollBottomListener(View contentView, OnScrollBottomListener onScrollBottomListener) {
+        GridViewWithHeaderAndFooter gridView = (GridViewWithHeaderAndFooter) contentView;
+        gridView.setOnScrollListener(new GridViewOnScrollListener(onScrollBottomListener));
+        gridView.setOnItemSelectedListener(new GridViewOnItemSelectedListener(onScrollBottomListener));
+    }
 
-	/**
-	 * 针对于电视 选择到了底部项的时候自动加载更多数据
-	 */
-	private class GridViewOnItemSelectedListener implements OnItemSelectedListener {
-		private OnScrollBottomListener onScrollBottomListener;
+    /**
+     * 针对于电视 选择到了底部项的时候自动加载更多数据
+     */
+    private class GridViewOnItemSelectedListener implements OnItemSelectedListener {
+        private OnScrollBottomListener onScrollBottomListener;
 
-		public GridViewOnItemSelectedListener(OnScrollBottomListener onScrollBottomListener) {
-			super();
-			this.onScrollBottomListener = onScrollBottomListener;
-		}
+        public GridViewOnItemSelectedListener(OnScrollBottomListener onScrollBottomListener) {
+            super();
+            this.onScrollBottomListener = onScrollBottomListener;
+        }
 
-		@Override
-		public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-			if (adapterView.getLastVisiblePosition() + 1 == adapterView.getCount()) {// 如果滚动到最后一行
-				if (onScrollBottomListener != null) {
-					onScrollBottomListener.onScorllBootom();
-				}
-			}
-		}
+        @Override
+        public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+            if (adapterView.getLastVisiblePosition() + 1 == adapterView.getCount()) {// 如果滚动到最后一行
+                if (onScrollBottomListener != null) {
+                    onScrollBottomListener.onScorllBootom();
+                }
+            }
+        }
 
-		@Override
-		public void onNothingSelected(AdapterView<?> parent) {
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
 
-		}
-	};
+        }
+    }
 
-	/**
-	 * 滚动到底部自动加载更多数据
-	 */
-	private static class GridViewOnScrollListener implements OnScrollListener {
-		private OnScrollBottomListener onScrollBottomListener;
+    ;
 
-		public GridViewOnScrollListener(OnScrollBottomListener onScrollBottomListener) {
-			super();
-			this.onScrollBottomListener = onScrollBottomListener;
-		}
+    /**
+     * 滚动到底部自动加载更多数据
+     */
+    private static class GridViewOnScrollListener implements OnScrollListener {
+        private OnScrollBottomListener onScrollBottomListener;
 
-		@Override
-		public void onScrollStateChanged(AbsListView view, int scrollState) {
-			if (scrollState == OnScrollListener.SCROLL_STATE_IDLE && view.getLastVisiblePosition() + 1 == view.getCount()) {// 如果滚动到最后一行
-				if (onScrollBottomListener != null) {
-					onScrollBottomListener.onScorllBootom();
-				}
-			}
-		}
+        public GridViewOnScrollListener(OnScrollBottomListener onScrollBottomListener) {
+            super();
+            this.onScrollBottomListener = onScrollBottomListener;
+        }
 
-		@Override
-		public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+        @Override
+        public void onScrollStateChanged(AbsListView view, int scrollState) {
+            if (scrollState == OnScrollListener.SCROLL_STATE_IDLE && view.getLastVisiblePosition() + 1 == view.getCount()) {// 如果滚动到最后一行
+                if (onScrollBottomListener != null) {
+                    onScrollBottomListener.onScorllBootom();
+                }
+            }
+        }
 
-		}
-	}
+        @Override
+        public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+        }
+    }
 }

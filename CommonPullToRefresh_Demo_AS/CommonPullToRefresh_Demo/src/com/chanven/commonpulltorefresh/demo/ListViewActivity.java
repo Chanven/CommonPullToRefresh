@@ -138,7 +138,7 @@ public class ListViewActivity extends Activity {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             if (convertView == null) {
-                convertView = inflater.inflate(android.R.layout.simple_list_item_1, parent, false);
+                convertView = inflater.inflate(R.layout.listitem_layout, parent, false);
             }
             TextView textView = (TextView) convertView;
             textView.setText(datas.get(position));

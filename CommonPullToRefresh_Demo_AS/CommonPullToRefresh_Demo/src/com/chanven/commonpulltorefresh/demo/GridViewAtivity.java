@@ -46,7 +46,7 @@ public class GridViewAtivity extends Activity {
     PtrClassicFrameLayout ptrClassicFrameLayout;
     GridViewWithHeaderAndFooter mGridView;
     GridViewAdapter mAdapter;
-    private List<String> mData = new ArrayList<String>();
+    private List<String> mData = new ArrayList<>();
     Handler handler = new Handler();
 
     int page = 0;
@@ -142,11 +142,10 @@ public class GridViewAtivity extends Activity {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             if (convertView == null) {
-                convertView = inflater.inflate(android.R.layout.simple_list_item_1, parent, false);
+                convertView = inflater.inflate(R.layout.listitem_layout, parent, false);
             }
             TextView textView = (TextView) convertView;
             textView.setText(datas.get(position));
-            textView.setTextColor(Color.BLACK);
             return convertView;
         }
 

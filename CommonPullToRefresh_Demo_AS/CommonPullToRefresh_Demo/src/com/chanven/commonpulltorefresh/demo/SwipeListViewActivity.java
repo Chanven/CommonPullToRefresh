@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.chanven.commonpulltorefresh.loadmore.OnLoadMoreListener;
 import com.chanven.commonpulltorefresh.loadmore.SwipeRefreshHelper;
+import com.chanven.commonpulltorefresh.loadmore.SwipeRefreshHelper.OnSwipeRefreshListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,9 +54,15 @@ public class SwipeListViewActivity extends Activity{
         mAdapter = new ListViewAdapter(this, mDatas);
         mListView.setAdapter(mAdapter);
         mSwipeRefreshHelper = new SwipeRefreshHelper(mSryt);
-//        mSwipeRefreshHelper.setLoadMoreEnable(true);
 
-        mSwipeRefreshHelper.setOnSwipeRefreshListener(new SwipeRefreshHelper.OnSwipeRefreshListener() {
+        mSryt.post(new Runnable() {
+            @Override
+            public void run() {
+                mSwipeRefreshHelper.autoRefresh();
+            }
+        });
+
+        mSwipeRefreshHelper.setOnSwipeRefreshListener(new OnSwipeRefreshListener() {
             @Override
             public void onfresh() {
                 mHandler.postDelayed(new Runnable() {
@@ -90,7 +97,27 @@ public class SwipeListViewActivity extends Activity{
                 }, 1000);
             }
         });
+
     }
+
+    OnSwipeRefreshListener mOnSwipeRefreshListener = new OnSwipeRefreshListener() {
+        @Override
+        public void onfresh() {
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mDatas.clear();
+                    page = 0;
+                    for (int i = 0; i < 17; i++) {
+                        mDatas.add(new String("  SwipeListView item  -" + i));
+                    }
+                    mAdapter.notifyDataSetChanged();
+                    mSwipeRefreshHelper.refreshComplete();
+                    mSwipeRefreshHelper.setLoadMoreEnable(true);
+                }
+            }, 1000);
+        }
+    };
 
 
     public class ListViewAdapter extends BaseAdapter {
@@ -121,11 +148,10 @@ public class SwipeListViewActivity extends Activity{
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             if (convertView == null) {
-                convertView = inflater.inflate(android.R.layout.simple_list_item_1, parent, false);
+                convertView = inflater.inflate(R.layout.listitem_layout, parent, false);
             }
             TextView textView = (TextView) convertView;
             textView.setText(datas.get(position));
-            textView.setTextColor(Color.BLACK);
             return convertView;
         }
 

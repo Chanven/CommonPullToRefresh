@@ -19,7 +19,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 
 /**
- * 加载更多布局切换工厂
+ * 加载更多布局切换接口
  *
  * @author Chanven
  */

@@ -25,7 +25,6 @@ public class SwipeRefreshHelper {
     private ILoadViewMoreFactory loadViewFactory = new DefaultLoadMoreViewFactory();
     private ListViewHandler listViewHandler = new ListViewHandler();
     private RecyclerViewHandler recyclerViewHandler = new RecyclerViewHandler();
-    private GridViewHandler gridViewHandler = new GridViewHandler();
 
     private OnLoadMoreListener mOnLoadMoreListener;
     private ILoadViewMoreFactory.ILoadMoreView mLoadMoreView;
@@ -39,6 +38,12 @@ public class SwipeRefreshHelper {
         }
     };
 
+    public void autoRefresh() {
+        if(null != mOnSwipeRefreshListener) {
+            mSwipeRefreshLayout.setRefreshing(true);
+            mOnSwipeRefreshListener.onfresh();
+        }
+    }
 
     public SwipeRefreshHelper(SwipeRefreshLayout refreshLayout) {
         this.mSwipeRefreshLayout = refreshLayout;

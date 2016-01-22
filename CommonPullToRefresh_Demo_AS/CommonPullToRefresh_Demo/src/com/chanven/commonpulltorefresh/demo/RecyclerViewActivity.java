@@ -137,12 +137,11 @@ public class RecyclerViewActivity extends Activity {
         public void onBindViewHolder(ViewHolder viewHolder, int position) {
             ChildViewHolder holder = (ChildViewHolder) viewHolder;
             holder.itemTv.setText(datas.get(position));
-            holder.itemTv.setTextColor(Color.BLACK);
         }
 
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup viewHolder, int position) {
-            View view = inflater.inflate(android.R.layout.simple_list_item_1, null);
+            View view = inflater.inflate(R.layout.listitem_layout, null);
             return new ChildViewHolder(view);
         }
 

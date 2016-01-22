@@ -22,6 +22,9 @@ import android.widget.TextView;
 
 import com.chanven.commonpulltorefreshview.R;
 
+/**
+ * default load more view
+ */
 public class DefaultLoadMoreViewFactory implements ILoadViewMoreFactory {
 
     @Override

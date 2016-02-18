@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <com.chanven.commonpulltorefresh.PtrClassicFrameLayout
+    <com.chanven.lib.cptr.PtrClassicFrameLayout
         xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
         android:id="@+id/test_grid_view_frame"
         android:layout_width="match_parent"
@@ -17,7 +17,7 @@
         cube_ptr:ptr_ratio_of_header_height_to_refresh="1.2"
         cube_ptr:ptr_resistance="1.8" >
 
-        <com.chanven.commonpulltorefresh.loadmore.GridViewWithHeaderAndFooter
+        <com.chanven.lib.cptr.loadmore.GridViewWithHeaderAndFooter
             android:id="@+id/test_grid_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -28,6 +28,6 @@
             android:fadingEdge="none"
             android:numColumns="4"
             android:scrollbarStyle="outsideOverlay" />
-    </com.chanven.commonpulltorefresh.PtrClassicFrameLayout>
+    </com.chanven.lib.cptr.PtrClassicFrameLayout>
 
 </LinearLayout>

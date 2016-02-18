@@ -1,2 +1,2 @@
-include ':CommonPullToRefresh_Lib'
+include ':cptr'
 include ':CommonPullToRefresh_Demo'

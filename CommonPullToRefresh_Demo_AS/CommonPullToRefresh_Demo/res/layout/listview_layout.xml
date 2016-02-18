@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <com.chanven.commonpulltorefresh.PtrClassicFrameLayout
+    <com.chanven.lib.cptr.PtrClassicFrameLayout
         xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
         android:id="@+id/test_list_view_frame"
         android:layout_width="match_parent"
@@ -27,6 +27,6 @@
             android:choiceMode="singleChoice"
             android:fadingEdge="none"
             android:scrollbarStyle="outsideOverlay" />
-    </com.chanven.commonpulltorefresh.PtrClassicFrameLayout>
+    </com.chanven.lib.cptr.PtrClassicFrameLayout>
 
 </LinearLayout>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.chanven.commonpulltorefresh.demo"
+    package="com.chanven.cptr.demo"
     android:versionCode="1"
     android:versionName="1.0" >
 
@@ -13,7 +13,7 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name">
         <activity
-            android:name="com.chanven.commonpulltorefresh.demo.MainActivity"
+            android:name="com.chanven.cptr.demo.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,16 +22,16 @@
             </intent-filter>
         </activity>
         <activity 
-            android:name="com.chanven.commonpulltorefresh.demo.ListViewActivity"
+            android:name="com.chanven.cptr.demo.ListViewActivity"
             android:label="@string/listView_with_loadmore"/>
         <activity 
-            android:name="com.chanven.commonpulltorefresh.demo.RecyclerViewActivity"
+            android:name="com.chanven.cptr.demo.RecyclerViewActivity"
             android:label="@string/recyclerview_with_loadmore"/>
         <activity 
-            android:name="com.chanven.commonpulltorefresh.demo.GridViewAtivity"
+            android:name="com.chanven.cptr.demo.GridViewAtivity"
             android:label="@string/gridview_with_loadmore"/>
         <activity
-            android:name="com.chanven.commonpulltorefresh.demo.SwipeListViewActivity"
+            android:name="com.chanven.cptr.demo.SwipeListViewActivity"
             android:label="@string/swipe_listview_with_loadmore"/>
     </application>
 

@@ -22,7 +22,7 @@ Android widget with pull to refresh for all the views,and support loadMore for L
 Gradle / Android Studio
 
 ```
-compile 'com.chanven.lib:cptr:1.0.0
+compile 'com.chanven.lib:cptr:1.0.0'
 ```
 #### 配置
 
@@ -101,7 +101,7 @@ compile 'com.chanven.lib:cptr:1.0.0
 
 检查是否可以下拉刷新在`PtrDefaultHandler.checkContentCanBePulledDown`中有默认简单的实现，你可以根据实际情况完成这个逻辑。
 
-```
+```java
 public interface PtrHandler {
     /**
      * 检查是否可以执行下来刷新，比如列表为空或者列表第一项在最上面时。

@@ -18,13 +18,13 @@ Android widget with pull to refresh for all the views,and support loadMore for L
  <div> <img src='https://raw.githubusercontent.com/Chanven/CommonPullToRefresh/master/raw/gridview.gif' width='270px'/> </div>
 ####SwipeRefreshLayout截图
 <div> <img src='https://raw.githubusercontent.com/Chanven/CommonPullToRefresh/master/raw/swipeListview.gif' width='270px'/> </div>
-#Usage
+# Usage
 Gradle / Android Studio
 
 ```
 compile 'com.chanven.lib:cptr:1.0.0
 ```
-#### 配置
+### 配置
 
 有6个参数可配置:
 
@@ -40,22 +40,22 @@ compile 'com.chanven.lib:cptr:1.0.0
 
 * 回弹延时
 
-    默认 `200ms`，回弹到刷新高度所用时间
+    默认 `200ms`，回弹到刷新高度所用时间。
 	`mPtrFrame.setDurationToClose(200)`
 
 * 头部回弹时间
 
-    默认`1000ms`
+    默认`1000ms`。
 	`mPtrFrame.setDurationToCloseHeader(1000)`
 
 * 刷新是保持头部
 
-    默认值 `true`.
+    默认值 `true`。
 	`mPtrFrame.setKeepHeaderWhenRefresh(true)`
 
 * 下拉刷新 / 释放刷新
 
-    默认为释放刷新，即`false`
+    默认为释放刷新，即`false`。
 	`mPtrFrame.setPullToRefresh(false)`
 
 #####上面是在`java`代码中配置，也可在`xml`文件中配置
@@ -95,7 +95,7 @@ compile 'com.chanven.lib:cptr:1.0.0
 
 </LinearLayout>
 ```
-## 处理刷新
+### 处理刷新
 
 通过`PtrHandler`，可以检查确定是否可以下来刷新以及在合适的时间刷新数据。
 
@@ -118,7 +118,7 @@ public interface PtrHandler {
     public void onRefreshBegin(final PtrFrameLayout frame);
 }
 ```
-## Header、Footer样式
+### Header、Footer样式
 * Header	实现接口`PtrUIHandler`，已有默认实现`PtrClassicDefaultHeader`
 * Footer	实现接口`ILoadViewMoreFactory`，已有默认实现`DefaultLoadMoreFooter`
 
@@ -129,6 +129,6 @@ public interface PtrHandler {
 *  如果要禁用下拉刷新，则更改`PtrHandler.checkCanDoRefresh`的返回实现即可
 
 
- 具体栗子可参见Demo
+ 具体栗子可参考Demo
  
 

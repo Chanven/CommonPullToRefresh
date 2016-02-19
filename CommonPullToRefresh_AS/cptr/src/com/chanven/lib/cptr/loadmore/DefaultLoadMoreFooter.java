@@ -25,7 +25,7 @@ import com.chanven.lib.cptr.R;
 /**
  * default load more view
  */
-public class DefaultLoadMoreViewFactory implements ILoadViewMoreFactory {
+public class DefaultLoadMoreFooter implements ILoadViewMoreFactory {
 
     @Override
     public ILoadMoreView madeLoadMoreView() {

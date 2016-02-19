@@ -22,7 +22,7 @@ public class SwipeRefreshHelper {
     private boolean isAutoLoadMore = true;
     private boolean isLoadMoreEnable = false;
     private boolean hasInitLoadMoreView = false;
-    private ILoadViewMoreFactory loadViewFactory = new DefaultLoadMoreViewFactory();
+    private ILoadViewMoreFactory loadViewFactory = new DefaultLoadMoreFooter();
     private ListViewHandler listViewHandler = new ListViewHandler();
     private RecyclerViewHandler recyclerViewHandler = new RecyclerViewHandler();
 

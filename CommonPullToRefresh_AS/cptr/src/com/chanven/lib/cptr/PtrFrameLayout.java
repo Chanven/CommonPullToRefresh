@@ -15,7 +15,7 @@ import android.widget.Scroller;
 import android.widget.TextView;
 
 import com.chanven.lib.cptr.indicator.PtrIndicator;
-import com.chanven.lib.cptr.loadmore.DefaultLoadMoreViewFactory;
+import com.chanven.lib.cptr.loadmore.DefaultLoadMoreFooter;
 import com.chanven.lib.cptr.loadmore.GridViewHandler;
 import com.chanven.lib.cptr.loadmore.ILoadViewMoreFactory;
 import com.chanven.lib.cptr.loadmore.ILoadViewMoreFactory.ILoadMoreView;
@@ -1043,7 +1043,7 @@ public class PtrFrameLayout extends ViewGroup {
     private boolean isAutoLoadMore = true;
     private boolean isLoadMoreEnable = false;
     private boolean hasInitLoadMoreView = false;
-    private ILoadViewMoreFactory loadViewFactory = new DefaultLoadMoreViewFactory();
+    private ILoadViewMoreFactory loadViewFactory = new DefaultLoadMoreFooter();
     private ListViewHandler listViewHandler = new ListViewHandler();
     private RecyclerViewHandler recyclerViewHandler = new RecyclerViewHandler();
     private GridViewHandler gridViewHandler = new GridViewHandler();

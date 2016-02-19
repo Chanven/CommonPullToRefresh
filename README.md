@@ -24,7 +24,7 @@ Gradle / Android Studio
 ```
 compile 'com.chanven.lib:cptr:1.0.0
 ```
-### 配置
+#### 配置
 
 有6个参数可配置:
 
@@ -95,7 +95,7 @@ compile 'com.chanven.lib:cptr:1.0.0
 
 </LinearLayout>
 ```
-### 处理刷新
+#### 处理刷新
 
 通过`PtrHandler`，可以检查确定是否可以下来刷新以及在合适的时间刷新数据。
 
@@ -106,7 +106,7 @@ public interface PtrHandler {
     /**
      * 检查是否可以执行下来刷新，比如列表为空或者列表第一项在最上面时。
      * <p/>
-     * {@link in.srain.cube.views.ptr.PtrDefaultHandler#checkContentCanBePulledDown}
+     * {@link com.chanven.lib.cptr.PtrDefaultHandler#checkContentCanBePulledDown}
      */
     public boolean checkCanDoRefresh(final PtrFrameLayout frame, final View content, final View header);
 
@@ -118,7 +118,7 @@ public interface PtrHandler {
     public void onRefreshBegin(final PtrFrameLayout frame);
 }
 ```
-### Header、Footer样式
+#### Header、Footer样式
 * Header	实现接口`PtrUIHandler`，已有默认实现`PtrClassicDefaultHeader`
 * Footer	实现接口`ILoadViewMoreFactory`，已有默认实现`DefaultLoadMoreFooter`
 

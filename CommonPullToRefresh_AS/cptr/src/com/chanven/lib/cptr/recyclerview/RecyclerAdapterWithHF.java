@@ -99,7 +99,7 @@ public class RecyclerAdapterWithHF extends RecyclerView.Adapter<RecyclerView.Vie
             FrameLayout frameLayout = new FrameLayout(viewGroup.getContext());
             // make sure it fills the space
             frameLayout.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup
-                    .LayoutParams.MATCH_PARENT));
+                    .LayoutParams.WRAP_CONTENT));
             return new HeaderFooterViewHolder(frameLayout);
         }
     }

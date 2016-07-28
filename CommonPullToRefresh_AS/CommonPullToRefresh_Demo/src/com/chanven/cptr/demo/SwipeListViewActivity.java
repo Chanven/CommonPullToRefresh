@@ -77,7 +77,7 @@ public class SwipeListViewActivity extends AppCompatActivity{
                         mSwipeRefreshHelper.refreshComplete();
                         mSwipeRefreshHelper.setLoadMoreEnable(true);
                     }
-                }, 1000);
+                }, 1500);
             }
         });
 

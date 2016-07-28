@@ -1045,7 +1045,7 @@ public class PtrFrameLayout extends ViewGroup {
     private boolean isLoadMoreEnable = false;
     private boolean hasInitLoadMoreView = false;
 
-    private ILoadMoreViewFactory loadViewFactory = new DefaultLoadMoreViewFooter();
+    private ILoadMoreViewFactory loadMoreViewFactory;
     private ILoadMoreView mLoadMoreView;
 
     private LoadMoreHandler mLoadMoreHandler;
@@ -1055,6 +1055,25 @@ public class PtrFrameLayout extends ViewGroup {
     public void setIsAutoLoadMore(boolean isAutoLoadMore) {
         this.isAutoLoadMore = isAutoLoadMore;
     }
+
+    public void setFooterView(ILoadMoreViewFactory factory) {
+        if (null == factory || (null != loadMoreViewFactory && loadMoreViewFactory == factory)) {
+            return;
+        }
+
+        loadMoreViewFactory = factory;
+
+        if (hasInitLoadMoreView) {
+            mLoadMoreHandler.removeFooter();
+            mLoadMoreView = loadMoreViewFactory.madeLoadMoreView();
+            hasInitLoadMoreView = mLoadMoreHandler.handleSetAdapter(mContentView, mLoadMoreView,
+                    onClickLoadMoreListener);
+            if (!isLoadMoreEnable) {
+                mLoadMoreHandler.removeFooter();
+            }
+        }
+
+    }
     
     public void setLoadMoreEnable(boolean loadMoreEnable) {
         if (this.isLoadMoreEnable == loadMoreEnable) {
@@ -1063,7 +1082,10 @@ public class PtrFrameLayout extends ViewGroup {
         this.isLoadMoreEnable = loadMoreEnable;
         if (!hasInitLoadMoreView && isLoadMoreEnable) {
             mContentView = getContentView();
-            mLoadMoreView = loadViewFactory.madeLoadMoreView();
+            if (null == loadMoreViewFactory) {
+                loadMoreViewFactory = new DefaultLoadMoreViewFooter();
+            }
+            mLoadMoreView = loadMoreViewFactory.madeLoadMoreView();
 
             if (null == mLoadMoreHandler) {
                 if (mContentView instanceof GridView) {
@@ -1082,7 +1104,9 @@ public class PtrFrameLayout extends ViewGroup {
             hasInitLoadMoreView = mLoadMoreHandler.handleSetAdapter(mContentView, mLoadMoreView,
                     onClickLoadMoreListener);
             mLoadMoreHandler.setOnScrollBottomListener(mContentView, onScrollBottomListener);
+            return;
         }
+
         if (hasInitLoadMoreView) {
             if (isLoadMoreEnable) {
                 mLoadMoreHandler.addFooter();
@@ -1090,6 +1114,10 @@ public class PtrFrameLayout extends ViewGroup {
                 mLoadMoreHandler.removeFooter();
             }
         }
+    }
+
+    public boolean isLoadMoreEnable() {
+        return isLoadMoreEnable;
     }
 
     private OnScrollBottomListener onScrollBottomListener = new OnScrollBottomListener() {
@@ -1106,7 +1134,7 @@ public class PtrFrameLayout extends ViewGroup {
 
         @Override
         public void onClick(View v) {
-            if (isLoadMoreEnable && !isLoadingMore) {
+            if (isLoadMoreEnable && !isLoadingMore()) {
                 loadMore();
             }
         }

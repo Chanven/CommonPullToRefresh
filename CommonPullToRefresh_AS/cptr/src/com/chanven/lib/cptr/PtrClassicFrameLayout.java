@@ -3,6 +3,9 @@ package com.chanven.lib.cptr;
 import android.content.Context;
 import android.util.AttributeSet;
 
+import com.chanven.lib.cptr.loadmore.DefaultLoadMoreViewFooter;
+import com.chanven.lib.cptr.loadmore.ILoadMoreViewFactory;
+
 public class PtrClassicFrameLayout extends PtrFrameLayout {
 
     private PtrClassicDefaultHeader mPtrClassicHeader;
@@ -26,6 +29,9 @@ public class PtrClassicFrameLayout extends PtrFrameLayout {
         mPtrClassicHeader = new PtrClassicDefaultHeader(getContext());
         setHeaderView(mPtrClassicHeader);
         addPtrUIHandler(mPtrClassicHeader);
+
+        ILoadMoreViewFactory loadMoreViewFactory = new DefaultLoadMoreViewFooter();
+        setFooterView(loadMoreViewFactory);
     }
 
     public PtrClassicDefaultHeader getHeader() {

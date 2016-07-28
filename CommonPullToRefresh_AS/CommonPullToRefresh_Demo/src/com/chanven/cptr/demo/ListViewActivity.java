@@ -86,11 +86,15 @@ public class ListViewActivity extends AppCompatActivity {
                         }
                         mAdapter.notifyDataSetChanged();
                         ptrClassicFrameLayout.refreshComplete();
-                        ptrClassicFrameLayout.setLoadMoreEnable(true);
+
+                        if (!ptrClassicFrameLayout.isLoadMoreEnable()) {
+                            ptrClassicFrameLayout.setLoadMoreEnable(true);
+                        }
                     }
                 }, 1500);
             }
         });
+
 
         ptrClassicFrameLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
 

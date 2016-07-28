@@ -21,11 +21,11 @@ public class SwipeRefreshHelper {
 
     private LoadMoreHandler mLoadMoreHandler;
 
-    private boolean isLoading = false;
+    private boolean isLoadingMore = false;
     private boolean isAutoLoadMore = true;
     private boolean isLoadMoreEnable = false;
     private boolean hasInitLoadMoreView = false;
-    private ILoadMoreViewFactory loadViewFactory = new DefaultLoadMoreViewFooter();
+    private ILoadMoreViewFactory loadMoreViewFactory = new DefaultLoadMoreViewFooter();
 
     private OnLoadMoreListener mOnLoadMoreListener;
     private ILoadMoreViewFactory.ILoadMoreView mLoadMoreView;
@@ -77,13 +77,31 @@ public class SwipeRefreshHelper {
         mSwipeRefreshLayout.setRefreshing(false);
     }
 
+    public void setFooterView(ILoadMoreViewFactory factory) {
+        if (null == factory || (null != loadMoreViewFactory && loadMoreViewFactory == factory)) {
+            return;
+        }
+
+        loadMoreViewFactory = factory;
+
+        if (hasInitLoadMoreView) {
+            mLoadMoreHandler.removeFooter();
+            mLoadMoreView = loadMoreViewFactory.madeLoadMoreView();
+            hasInitLoadMoreView = mLoadMoreHandler.handleSetAdapter(mContentView, mLoadMoreView,
+                    onClickLoadMoreListener);
+            if (!isLoadMoreEnable) {
+                mLoadMoreHandler.removeFooter();
+            }
+        }
+    }
+
     public void setLoadMoreEnable(boolean enable) {
         if (this.isLoadMoreEnable == enable) {
             return;
         }
         this.isLoadMoreEnable = enable;
         if (!hasInitLoadMoreView && isLoadMoreEnable) {
-            mLoadMoreView = loadViewFactory.madeLoadMoreView();
+            mLoadMoreView = loadMoreViewFactory.madeLoadMoreView();
 
             if (null == mLoadMoreHandler) {
                 if (mContentView instanceof GridView) {
@@ -102,7 +120,9 @@ public class SwipeRefreshHelper {
             hasInitLoadMoreView = mLoadMoreHandler.handleSetAdapter(mContentView, mLoadMoreView,
                     onClickLoadMoreListener);
             mLoadMoreHandler.setOnScrollBottomListener(mContentView, onScrollBottomListener);
+            return;
         }
+
         if (hasInitLoadMoreView) {
             if (isLoadMoreEnable) {
                 mLoadMoreHandler.addFooter();
@@ -112,6 +132,10 @@ public class SwipeRefreshHelper {
         }
     }
 
+    public boolean isLoadMoreEnable() {
+        return isLoadMoreEnable;
+    }
+
     public void setIsAutoLoadMore(boolean isAutoLoadMore) {
         this.isAutoLoadMore = isAutoLoadMore;
     }
@@ -119,7 +143,7 @@ public class SwipeRefreshHelper {
     private OnScrollBottomListener onScrollBottomListener = new OnScrollBottomListener() {
         @Override
         public void onScorllBootom() {
-            if (isAutoLoadMore && isLoadMoreEnable && !isLoading()) {
+            if (isAutoLoadMore && isLoadMoreEnable && !isLoadingMore()) {
                 // can check network here
                 loadMore();
             }
@@ -130,12 +154,14 @@ public class SwipeRefreshHelper {
 
         @Override
         public void onClick(View v) {
-            loadMore();
+            if (isLoadMoreEnable && !isLoadingMore()) {
+                loadMore();
+            }
         }
     };
 
     private void loadMore() {
-        isLoading = true;
+        isLoadingMore = true;
         mLoadMoreView.showLoading();
         if (null != mOnLoadMoreListener) {
             mOnLoadMoreListener.loadMore();
@@ -143,7 +169,7 @@ public class SwipeRefreshHelper {
     }
 
     public void loadMoreComplete(boolean hasMore) {
-        isLoading = false;
+        isLoadingMore = false;
         if (hasMore) {
             mLoadMoreView.showNormal();
         } else {
@@ -152,12 +178,12 @@ public class SwipeRefreshHelper {
     }
 
     public void setNoMoreData() {
-        isLoading = false;
+        isLoadingMore = false;
         mLoadMoreView.showNomore();
     }
 
-    public boolean isLoading() {
-        return isLoading;
+    public boolean isLoadingMore() {
+        return isLoadingMore;
     }
 
     public static interface OnSwipeRefreshListener {

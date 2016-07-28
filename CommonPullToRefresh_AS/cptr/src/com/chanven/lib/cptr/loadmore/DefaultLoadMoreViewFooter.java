@@ -25,7 +25,7 @@ import com.chanven.lib.cptr.R;
 /**
  * default load more view
  */
-public class DefaultLoadMoreFooter implements ILoadViewMoreFactory {
+public class DefaultLoadMoreViewFooter implements ILoadMoreViewFactory {
 
     @Override
     public ILoadMoreView madeLoadMoreView() {
@@ -34,6 +34,7 @@ public class DefaultLoadMoreFooter implements ILoadViewMoreFactory {
 
     private class LoadMoreHelper implements ILoadMoreView {
 
+        protected View footerView;
         protected TextView footerTv;
         protected ProgressBar footerBar;
 
@@ -41,9 +42,9 @@ public class DefaultLoadMoreFooter implements ILoadViewMoreFactory {
 
         @Override
         public void init(FootViewAdder footViewHolder, OnClickListener onClickRefreshListener) {
-            View view = footViewHolder.addFootView(R.layout.loadmore_default_footer);
-            footerTv = (TextView) view.findViewById(R.id.loadmore_default_footer_tv);
-            footerBar = (ProgressBar) view.findViewById(R.id.loadmore_default_footer_progressbar);
+            footerView = footViewHolder.addFootView(R.layout.loadmore_default_footer);
+            footerTv = (TextView) footerView.findViewById(R.id.loadmore_default_footer_tv);
+            footerBar = (ProgressBar) footerView.findViewById(R.id.loadmore_default_footer_progressbar);
             this.onClickRefreshListener = onClickRefreshListener;
             showNormal();
         }
@@ -52,30 +53,34 @@ public class DefaultLoadMoreFooter implements ILoadViewMoreFactory {
         public void showNormal() {
             footerTv.setText("点击加载更多");
             footerBar.setVisibility(View.GONE);
-            footerTv.setOnClickListener(onClickRefreshListener);
+            footerView.setOnClickListener(onClickRefreshListener);
         }
 
         @Override
         public void showLoading() {
             footerTv.setText("正在加载中...");
             footerBar.setVisibility(View.VISIBLE);
-            footerTv.setOnClickListener(null);
+            footerView.setOnClickListener(null);
         }
 
         @Override
         public void showFail(Exception exception) {
             footerTv.setText("加载失败，点击重新");
             footerBar.setVisibility(View.GONE);
-            footerTv.setOnClickListener(onClickRefreshListener);
+            footerView.setOnClickListener(onClickRefreshListener);
         }
 
         @Override
         public void showNomore() {
             footerTv.setText("已经加载完毕");
             footerBar.setVisibility(View.GONE);
-            footerTv.setOnClickListener(null);
+            footerView.setOnClickListener(null);
         }
 
+        @Override
+        public void setFooterVisibility(boolean isVisible) {
+            footerView.setVisibility(isVisible ? View.VISIBLE : View.GONE);
+        }
     }
 
 }

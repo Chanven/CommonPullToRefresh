@@ -15,11 +15,12 @@ import android.widget.Scroller;
 import android.widget.TextView;
 
 import com.chanven.lib.cptr.indicator.PtrIndicator;
-import com.chanven.lib.cptr.loadmore.DefaultLoadMoreFooter;
+import com.chanven.lib.cptr.loadmore.DefaultLoadMoreViewFooter;
 import com.chanven.lib.cptr.loadmore.GridViewHandler;
-import com.chanven.lib.cptr.loadmore.ILoadViewMoreFactory;
-import com.chanven.lib.cptr.loadmore.ILoadViewMoreFactory.ILoadMoreView;
+import com.chanven.lib.cptr.loadmore.ILoadMoreViewFactory;
+import com.chanven.lib.cptr.loadmore.ILoadMoreViewFactory.ILoadMoreView;
 import com.chanven.lib.cptr.loadmore.ListViewHandler;
+import com.chanven.lib.cptr.loadmore.LoadMoreHandler;
 import com.chanven.lib.cptr.loadmore.OnLoadMoreListener;
 import com.chanven.lib.cptr.loadmore.OnScrollBottomListener;
 import com.chanven.lib.cptr.loadmore.RecyclerViewHandler;
@@ -1039,17 +1040,21 @@ public class PtrFrameLayout extends ViewGroup {
         }
     }
     
-    private boolean isLoading = false;
+    private boolean isLoadingMore = false;
     private boolean isAutoLoadMore = true;
     private boolean isLoadMoreEnable = false;
     private boolean hasInitLoadMoreView = false;
-    private ILoadViewMoreFactory loadViewFactory = new DefaultLoadMoreFooter();
-    private ListViewHandler listViewHandler = new ListViewHandler();
-    private RecyclerViewHandler recyclerViewHandler = new RecyclerViewHandler();
-    private GridViewHandler gridViewHandler = new GridViewHandler();
-    
-    private View mContentView;
+
+    private ILoadMoreViewFactory loadViewFactory = new DefaultLoadMoreViewFooter();
     private ILoadMoreView mLoadMoreView;
+
+    private LoadMoreHandler mLoadMoreHandler;
+
+    private View mContentView;
+
+    public void setIsAutoLoadMore(boolean isAutoLoadMore) {
+        this.isAutoLoadMore = isAutoLoadMore;
+    }
     
     public void setLoadMoreEnable(boolean loadMoreEnable) {
         if (this.isLoadMoreEnable == loadMoreEnable) {
@@ -1059,20 +1064,30 @@ public class PtrFrameLayout extends ViewGroup {
         if (!hasInitLoadMoreView && isLoadMoreEnable) {
             mContentView = getContentView();
             mLoadMoreView = loadViewFactory.madeLoadMoreView();
-            if (mContentView instanceof GridView) {
-                hasInitLoadMoreView = gridViewHandler.handleSetAdapter(mContentView, mLoadMoreView,
-                        onClickLoadMoreListener);
-                gridViewHandler.setOnScrollBottomListener(mContentView, onScrollBottomListener);
-                return;
+
+            if (null == mLoadMoreHandler) {
+                if (mContentView instanceof GridView) {
+                    mLoadMoreHandler = new GridViewHandler();
+                } else if (mContentView instanceof AbsListView) {
+                    mLoadMoreHandler = new ListViewHandler();
+                } else if (mContentView instanceof RecyclerView) {
+                    mLoadMoreHandler = new RecyclerViewHandler();
+                }
             }
-            if (mContentView instanceof AbsListView) {
-                hasInitLoadMoreView = listViewHandler.handleSetAdapter(mContentView, mLoadMoreView,
-                        onClickLoadMoreListener);
-                listViewHandler.setOnScrollBottomListener(mContentView, onScrollBottomListener);
-            } else if (mContentView instanceof RecyclerView) {
-                hasInitLoadMoreView = recyclerViewHandler.handleSetAdapter(mContentView, mLoadMoreView,
-                        onClickLoadMoreListener);
-                recyclerViewHandler.setOnScrollBottomListener(mContentView, onScrollBottomListener);
+
+            if (null == mLoadMoreHandler) {
+                throw new IllegalStateException("unSupported contentView !");
+            }
+
+            hasInitLoadMoreView = mLoadMoreHandler.handleSetAdapter(mContentView, mLoadMoreView,
+                    onClickLoadMoreListener);
+            mLoadMoreHandler.setOnScrollBottomListener(mContentView, onScrollBottomListener);
+        }
+        if (hasInitLoadMoreView) {
+            if (isLoadMoreEnable) {
+                mLoadMoreHandler.addFooter();
+            } else {
+                mLoadMoreHandler.removeFooter();
             }
         }
     }
@@ -1080,8 +1095,8 @@ public class PtrFrameLayout extends ViewGroup {
     private OnScrollBottomListener onScrollBottomListener = new OnScrollBottomListener() {
         @Override
         public void onScorllBootom() {
-            if (isAutoLoadMore && isLoadMoreEnable && !isLoading()) {
-                // 此处可加入网络是否可用的判断
+            if (isAutoLoadMore && isLoadMoreEnable && !isLoadingMore()) {
+                // can check network here
                 loadMore();
             }
         }
@@ -1091,18 +1106,20 @@ public class PtrFrameLayout extends ViewGroup {
 
         @Override
         public void onClick(View v) {
-            loadMore();
+            if (isLoadMoreEnable && !isLoadingMore) {
+                loadMore();
+            }
         }
     };
 
     void loadMore() {
-        isLoading = true;
+        isLoadingMore = true;
         mLoadMoreView.showLoading();
         mOnLoadMoreListener.loadMore();
     }
 
     public void loadMoreComplete(boolean hasMore) {
-        isLoading = false;
+        isLoadingMore = false;
         if (hasMore) {
             mLoadMoreView.showNormal();
         } else {
@@ -1110,8 +1127,8 @@ public class PtrFrameLayout extends ViewGroup {
         }
     }
 
-    public boolean isLoading() {
-        return isLoading;
+    public boolean isLoadingMore() {
+        return isLoadingMore;
     }
 
     public void setNoMoreData() {

@@ -15,10 +15,10 @@ limitations under the License.
  */
 package com.chanven.cptr.demo;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,7 +41,7 @@ import java.util.List;
  * @author Chanven
  * @date 2015-9-21
  */
-public class ListViewActivity extends Activity {
+public class ListViewActivity extends AppCompatActivity {
     PtrClassicFrameLayout ptrClassicFrameLayout;
     ListView mListView;
     private List<String> mData = new ArrayList<String>();
@@ -62,8 +62,10 @@ public class ListViewActivity extends Activity {
     private void initData() {
         mAdapter = new ListViewAdapter(this, mData);
         mListView.setAdapter(mAdapter);
-        ptrClassicFrameLayout.postDelayed(new Runnable() {
 
+        // set auto load more disable,default available
+//        ptrClassicFrameLayout.setIsAutoLoadMore(false);
+        ptrClassicFrameLayout.postDelayed(new Runnable() {
             @Override
             public void run() {
                 ptrClassicFrameLayout.autoRefresh(true);
@@ -86,7 +88,7 @@ public class ListViewActivity extends Activity {
                         ptrClassicFrameLayout.refreshComplete();
                         ptrClassicFrameLayout.setLoadMoreEnable(true);
                     }
-                }, 1000);
+                }, 1500);
             }
         });
 
@@ -104,6 +106,11 @@ public class ListViewActivity extends Activity {
                         page++;
                         Toast.makeText(ListViewActivity.this, "load more complete", Toast.LENGTH_SHORT)
                                 .show();
+
+                        if (page == 1) {
+                            //set load more disable
+//                            ptrClassicFrameLayout.setLoadMoreEnable(false);
+                        }
                     }
                 }, 1000);
             }

@@ -1,11 +1,11 @@
 package com.chanven.cptr.demo;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +25,7 @@ import java.util.List;
  * listView with load more in swipeRefreshLayout
  * Created by Chanven on 2015-11-5.
  */
-public class SwipeListViewActivity extends Activity{
+public class SwipeListViewActivity extends AppCompatActivity{
     private SwipeRefreshLayout mSryt;
     private ListView mListView;
 
@@ -91,8 +91,7 @@ public class SwipeListViewActivity extends Activity{
                         mAdapter.notifyDataSetChanged();
                         mSwipeRefreshHelper.loadMoreComplete(true);
                         page++;
-                        Toast.makeText(SwipeListViewActivity.this, "load more complete", Toast.LENGTH_SHORT)
-                                .show();
+                        Toast.makeText(SwipeListViewActivity.this, "load more complete", Toast.LENGTH_SHORT).show();
                     }
                 }, 1000);
             }

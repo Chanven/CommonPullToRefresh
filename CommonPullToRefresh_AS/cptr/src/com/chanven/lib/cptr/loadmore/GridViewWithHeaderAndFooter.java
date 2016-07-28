@@ -189,6 +189,9 @@ public class GridViewWithHeaderAndFooter extends GridView {
             v.setLayoutParams(new FrameLayout.LayoutParams(lyp.width, lyp.height));
             fl.setLayoutParams(new AbsListView.LayoutParams(lyp.width, lyp.height));
         }
+        if (null != v.getParent()) {
+            ((ViewGroup)v.getParent()).removeView(v);
+        }
         fl.addView(v);
         info.view = v;
         info.viewContainer = fl;
@@ -243,7 +246,7 @@ public class GridViewWithHeaderAndFooter extends GridView {
             if (adapter != null && ((HeaderViewGridAdapter) adapter).removeFooter(v)) {
                 result = true;
             }
-            removeFixedViewInfo(v, mFooterViewInfos);
+//            removeFixedViewInfo(v, mFooterViewInfos);
             return result;
         }
         return false;

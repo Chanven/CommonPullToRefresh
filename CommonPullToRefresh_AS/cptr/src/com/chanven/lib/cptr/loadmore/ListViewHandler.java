@@ -10,14 +10,18 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ListView;
 
-import com.chanven.lib.cptr.loadmore.ILoadViewMoreFactory.FootViewAdder;
-import com.chanven.lib.cptr.loadmore.ILoadViewMoreFactory.ILoadMoreView;
+import com.chanven.lib.cptr.loadmore.ILoadMoreViewFactory.FootViewAdder;
+import com.chanven.lib.cptr.loadmore.ILoadMoreViewFactory.ILoadMoreView;
 
-public class ListViewHandler implements ViewHandler {
+public class ListViewHandler implements LoadMoreHandler {
+
+    private ListView mListView;
+    private View mFooter;
 
     @Override
     public boolean handleSetAdapter(View contentView, ILoadMoreView loadMoreView, OnClickListener onClickLoadMoreListener) {
         final ListView listView = (ListView) contentView;
+        mListView = listView;
         boolean hasInit = false;
         if (loadMoreView != null) {
             final Context context = listView.getContext().getApplicationContext();
@@ -26,6 +30,7 @@ public class ListViewHandler implements ViewHandler {
                 @Override
                 public View addFootView(int layoutId) {
                     View view = LayoutInflater.from(context).inflate(layoutId, listView, false);
+                    mFooter = view;
                     return addFootView(view);
                 }
 
@@ -45,6 +50,20 @@ public class ListViewHandler implements ViewHandler {
         ListView listView = (ListView) contentView;
         listView.setOnScrollListener(new ListViewOnScrollListener(onScrollBottomListener));
         listView.setOnItemSelectedListener(new ListViewOnItemSelectedListener(onScrollBottomListener));
+    }
+
+    @Override
+    public void removeFooter() {
+        if (mListView.getFooterViewsCount() > 0 && null != mFooter) {
+            mListView.removeFooterView(mFooter);
+        }
+    }
+
+    @Override
+    public void addFooter() {
+        if (mListView.getFooterViewsCount() <= 0 && null != mFooter) {
+            mListView.addFooterView(mFooter);
+        }
     }
 
     /**

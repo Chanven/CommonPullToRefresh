@@ -9,32 +9,50 @@ import android.view.View.OnClickListener;
 
 import com.chanven.lib.cptr.recyclerview.RecyclerAdapterWithHF;
 
-public class RecyclerViewHandler implements ViewHandler {
+public class RecyclerViewHandler implements LoadMoreHandler {
+
+    private RecyclerAdapterWithHF mRecyclerAdapter;
+    private View mFooter;
 
     @Override
-    public boolean handleSetAdapter(View contentView, ILoadViewMoreFactory.ILoadMoreView loadMoreView, OnClickListener onClickLoadMoreListener) {
+    public boolean handleSetAdapter(View contentView, ILoadMoreViewFactory.ILoadMoreView loadMoreView, OnClickListener onClickLoadMoreListener) {
         final RecyclerView recyclerView = (RecyclerView) contentView;
         boolean hasInit = false;
-        final RecyclerAdapterWithHF adapter = (RecyclerAdapterWithHF) recyclerView.getAdapter();
+        mRecyclerAdapter = (RecyclerAdapterWithHF) recyclerView.getAdapter();
         if (loadMoreView != null) {
             final Context context = recyclerView.getContext().getApplicationContext();
-            loadMoreView.init(new ILoadViewMoreFactory.FootViewAdder() {
+            loadMoreView.init(new ILoadMoreViewFactory.FootViewAdder() {
 
                 @Override
                 public View addFootView(int layoutId) {
                     View view = LayoutInflater.from(context).inflate(layoutId, recyclerView, false);
+                    mFooter = view;
                     return addFootView(view);
                 }
 
                 @Override
                 public View addFootView(View view) {
-                    adapter.addFooter(view);
+                    mRecyclerAdapter.addFooter(view);
                     return view;
                 }
             }, onClickLoadMoreListener);
             hasInit = true;
         }
         return hasInit;
+    }
+
+    @Override
+    public void addFooter() {
+        if (mRecyclerAdapter.getFootSize() <= 0 && null != mFooter) {
+            mRecyclerAdapter.addFooter(mFooter);
+        }
+    }
+
+    @Override
+    public void removeFooter() {
+        if (mRecyclerAdapter.getFootSize() > 0 && null != mFooter) {
+            mRecyclerAdapter.removeFooter(mFooter);
+        }
     }
 
     @Override

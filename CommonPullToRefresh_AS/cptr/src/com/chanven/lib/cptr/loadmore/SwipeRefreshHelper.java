@@ -4,6 +4,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.AbsListView;
+import android.widget.GridView;
 
 import java.lang.reflect.Field;
 
@@ -18,16 +19,16 @@ public class SwipeRefreshHelper {
 
     private OnSwipeRefreshListener mOnSwipeRefreshListener;
 
+    private LoadMoreHandler mLoadMoreHandler;
+
     private boolean isLoading = false;
     private boolean isAutoLoadMore = true;
     private boolean isLoadMoreEnable = false;
     private boolean hasInitLoadMoreView = false;
-    private ILoadViewMoreFactory loadViewFactory = new DefaultLoadMoreFooter();
-    private ListViewHandler listViewHandler = new ListViewHandler();
-    private RecyclerViewHandler recyclerViewHandler = new RecyclerViewHandler();
+    private ILoadMoreViewFactory loadViewFactory = new DefaultLoadMoreViewFooter();
 
     private OnLoadMoreListener mOnLoadMoreListener;
-    private ILoadViewMoreFactory.ILoadMoreView mLoadMoreView;
+    private ILoadMoreViewFactory.ILoadMoreView mLoadMoreView;
 
     private SwipeRefreshLayout.OnRefreshListener mOnRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
         @Override
@@ -83,21 +84,43 @@ public class SwipeRefreshHelper {
         this.isLoadMoreEnable = enable;
         if (!hasInitLoadMoreView && isLoadMoreEnable) {
             mLoadMoreView = loadViewFactory.madeLoadMoreView();
-            if (mContentView instanceof AbsListView) {
-                hasInitLoadMoreView = listViewHandler.handleSetAdapter(mContentView, mLoadMoreView, onClickLoadMoreListener);
-                listViewHandler.setOnScrollBottomListener(mContentView, onScrollBottomListener);
-            } else if (mContentView instanceof RecyclerView) {
-                hasInitLoadMoreView = recyclerViewHandler.handleSetAdapter(mContentView, mLoadMoreView, onClickLoadMoreListener);
-                recyclerViewHandler.setOnScrollBottomListener(mContentView, onScrollBottomListener);
+
+            if (null == mLoadMoreHandler) {
+                if (mContentView instanceof GridView) {
+                    mLoadMoreHandler = new GridViewHandler();
+                } else if (mContentView instanceof AbsListView) {
+                    mLoadMoreHandler = new ListViewHandler();
+                } else if (mContentView instanceof RecyclerView) {
+                    mLoadMoreHandler = new RecyclerViewHandler();
+                }
+            }
+
+            if (null == mLoadMoreHandler) {
+                throw new IllegalStateException("unSupported contentView !");
+            }
+
+            hasInitLoadMoreView = mLoadMoreHandler.handleSetAdapter(mContentView, mLoadMoreView,
+                    onClickLoadMoreListener);
+            mLoadMoreHandler.setOnScrollBottomListener(mContentView, onScrollBottomListener);
+        }
+        if (hasInitLoadMoreView) {
+            if (isLoadMoreEnable) {
+                mLoadMoreHandler.addFooter();
+            } else {
+                mLoadMoreHandler.removeFooter();
             }
         }
+    }
+
+    public void setIsAutoLoadMore(boolean isAutoLoadMore) {
+        this.isAutoLoadMore = isAutoLoadMore;
     }
 
     private OnScrollBottomListener onScrollBottomListener = new OnScrollBottomListener() {
         @Override
         public void onScorllBootom() {
             if (isAutoLoadMore && isLoadMoreEnable && !isLoading()) {
-                // 此处可加入网络是否可用的判断
+                // can check network here
                 loadMore();
             }
         }

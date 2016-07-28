@@ -15,10 +15,10 @@ limitations under the License.
  */
 package com.chanven.cptr.demo;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.Adapter;
@@ -44,7 +44,7 @@ import java.util.List;
  * @author Chanven
  * @date 2015-9-21
  */
-public class RecyclerViewActivity extends Activity {
+public class RecyclerViewActivity extends AppCompatActivity {
     PtrClassicFrameLayout ptrClassicFrameLayout;
     RecyclerView mRecyclerView;
     private List<String> mData = new ArrayList<String>();
@@ -93,7 +93,7 @@ public class RecyclerViewActivity extends Activity {
                         ptrClassicFrameLayout.refreshComplete();
                         ptrClassicFrameLayout.setLoadMoreEnable(true);
                     }
-                }, 2000);
+                }, 1500);
             }
         });
 
@@ -109,8 +109,7 @@ public class RecyclerViewActivity extends Activity {
                         mAdapter.notifyDataSetChanged();
                         ptrClassicFrameLayout.loadMoreComplete(true);
                         page++;
-                        Toast.makeText(RecyclerViewActivity.this, "load more complete", Toast.LENGTH_SHORT)
-                                .show();
+                        Toast.makeText(RecyclerViewActivity.this, "load more complete", Toast.LENGTH_SHORT).show();
                     }
                 }, 1000);
             }

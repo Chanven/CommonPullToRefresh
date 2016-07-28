@@ -23,7 +23,7 @@ import android.view.View.OnClickListener;
  *
  * @author Chanven
  */
-public interface ILoadViewMoreFactory {
+public interface ILoadMoreViewFactory {
 
     public ILoadMoreView madeLoadMoreView();
 
@@ -63,6 +63,8 @@ public interface ILoadViewMoreFactory {
          * @param e
          */
         public void showFail(Exception e);
+
+        public void setFooterVisibility(boolean isVisible);
 
     }
 

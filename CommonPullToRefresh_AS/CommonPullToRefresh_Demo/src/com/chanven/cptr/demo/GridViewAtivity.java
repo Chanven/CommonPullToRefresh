@@ -15,10 +15,10 @@ limitations under the License.
  */
 package com.chanven.cptr.demo;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,7 +41,7 @@ import java.util.List;
  * @author Chanven
  * @date 2015-10-13
  */
-public class GridViewAtivity extends Activity {
+public class GridViewAtivity extends AppCompatActivity {
     PtrClassicFrameLayout ptrClassicFrameLayout;
     GridViewWithHeaderAndFooter mGridView;
     GridViewAdapter mAdapter;
@@ -86,7 +86,7 @@ public class GridViewAtivity extends Activity {
                         ptrClassicFrameLayout.refreshComplete();
                         ptrClassicFrameLayout.setLoadMoreEnable(true);
                     }
-                }, 1000);
+                }, 1500);
             }
         });
 
@@ -104,8 +104,7 @@ public class GridViewAtivity extends Activity {
                         mAdapter.notifyDataSetChanged();
                         ptrClassicFrameLayout.loadMoreComplete(true);
                         page++;
-                        Toast.makeText(GridViewAtivity.this, "load more complete", Toast.LENGTH_SHORT)
-                                .show();
+                        Toast.makeText(GridViewAtivity.this, "load more complete", Toast.LENGTH_SHORT).show();
                     }
                 }, 1000);
             }

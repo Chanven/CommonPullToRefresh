@@ -25,38 +25,56 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ListAdapter;
 
-import com.chanven.lib.cptr.loadmore.ILoadViewMoreFactory.FootViewAdder;
-import com.chanven.lib.cptr.loadmore.ILoadViewMoreFactory.ILoadMoreView;
+import com.chanven.lib.cptr.loadmore.ILoadMoreViewFactory.FootViewAdder;
+import com.chanven.lib.cptr.loadmore.ILoadMoreViewFactory.ILoadMoreView;
 
-public class GridViewHandler implements ViewHandler {
+public class GridViewHandler implements LoadMoreHandler {
+
+    private GridViewWithHeaderAndFooter mGridView;
+    private View mFooter;
 
     @Override
     public boolean handleSetAdapter(View contentView, ILoadMoreView loadMoreView, OnClickListener onClickLoadMoreListener) {
-        final GridViewWithHeaderAndFooter gridView = (GridViewWithHeaderAndFooter) contentView;
-        ListAdapter adapter = gridView.getAdapter();
+        mGridView = (GridViewWithHeaderAndFooter) contentView;
+        ListAdapter adapter = mGridView.getAdapter();
         boolean hasInit = false;
         if (loadMoreView != null) {
-            final Context context = gridView.getContext().getApplicationContext();
+            final Context context = mGridView.getContext().getApplicationContext();
             loadMoreView.init(new FootViewAdder() {
 
                 @Override
                 public View addFootView(int layoutId) {
-                    View view = LayoutInflater.from(context).inflate(layoutId, gridView, false);
+                    View view = LayoutInflater.from(context).inflate(layoutId, mGridView, false);
+                    mFooter = view;
                     return addFootView(view);
                 }
 
                 @Override
                 public View addFootView(View view) {
-                    gridView.addFooterView(view);
+                    mGridView.addFooterView(view);
                     return view;
                 }
             }, onClickLoadMoreListener);
             hasInit = true;
             if (null != adapter) {
-                gridView.setAdapter(adapter);
+                mGridView.setAdapter(adapter);
             }
         }
         return hasInit;
+    }
+
+    @Override
+    public void addFooter() {
+        if (mGridView.getFooterViewCount() <= 0 && null != mFooter) {
+            mGridView.addFooterView(mFooter);
+        }
+    }
+
+    @Override
+    public void removeFooter() {
+        if (mGridView.getFooterViewCount() > 0 && null != mFooter) {
+            mGridView.removeFooterView(mFooter);
+        }
     }
 
     @Override

@@ -125,6 +125,7 @@ public interface PtrHandler {
 * 是否自动加载
   默认`true`
   `mPtrFrame.setAutoLoadMoreEnable(true)`
+
 #### Header、Footer样式
 * Header	实现接口`PtrUIHandler`，已有默认实现`PtrClassicDefaultHeader`，并通过`PtrFrameLayout.setHeaderView(View header)`设置
 * Footer	实现接口`ILoadMoreViewFactory`，已有默认实现`DefaultLoadMoreViewFooter`，并通过`PtrFrameLayout.setFooterView(ILoadMoreViewFactory factory)`设置

@@ -22,9 +22,9 @@ Android widget with pull to refresh for all the views,and support loadMore for L
 Gradle / Android Studio
 
 ```
-compile 'com.chanven.lib:cptr:1.0.0'
+compile 'com.chanven.lib:cptr:1.1.0'
 ```
-#### 配置
+#### 下拉刷新配置
 
 有6个参数可配置:
 
@@ -118,9 +118,16 @@ public interface PtrHandler {
     public void onRefreshBegin(final PtrFrameLayout frame);
 }
 ```
+#### 加载更多配置
+* 是否需要加载更多
+  默认`false`
+  `mPtrFrame.setLoadMoreEnable(true)`
+* 是否自动加载
+  默认`true`
+  `mPtrFrame.setAutoLoadMoreEnable(true)`
 #### Header、Footer样式
-* Header	实现接口`PtrUIHandler`，已有默认实现`PtrClassicDefaultHeader`
-* Footer	实现接口`ILoadViewMoreFactory`，已有默认实现`DefaultLoadMoreFooter`
+* Header	实现接口`PtrUIHandler`，已有默认实现`PtrClassicDefaultHeader`，并通过`PtrFrameLayout.setHeaderView(View header)`设置
+* Footer	实现接口`ILoadMoreViewFactory`，已有默认实现`DefaultLoadMoreViewFooter`，并通过`PtrFrameLayout.setFooterView(ILoadMoreViewFactory factory)`设置
 
 ## 常见问题
 

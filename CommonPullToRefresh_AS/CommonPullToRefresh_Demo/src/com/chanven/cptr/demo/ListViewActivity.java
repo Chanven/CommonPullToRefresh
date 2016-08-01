@@ -64,7 +64,7 @@ public class ListViewActivity extends AppCompatActivity {
         mListView.setAdapter(mAdapter);
 
         // set auto load more disable,default available
-//        ptrClassicFrameLayout.setIsAutoLoadMore(false);
+//        ptrClassicFrameLayout.setAutoLoadMoreEnable(false);
         ptrClassicFrameLayout.postDelayed(new Runnable() {
             @Override
             public void run() {

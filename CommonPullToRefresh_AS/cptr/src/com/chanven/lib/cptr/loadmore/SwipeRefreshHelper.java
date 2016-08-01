@@ -22,7 +22,7 @@ public class SwipeRefreshHelper {
     private LoadMoreHandler mLoadMoreHandler;
 
     private boolean isLoadingMore = false;
-    private boolean isAutoLoadMore = true;
+    private boolean isAutoLoadMoreEnable = true;
     private boolean isLoadMoreEnable = false;
     private boolean hasInitLoadMoreView = false;
     private ILoadMoreViewFactory loadMoreViewFactory = new DefaultLoadMoreViewFooter();
@@ -136,14 +136,14 @@ public class SwipeRefreshHelper {
         return isLoadMoreEnable;
     }
 
-    public void setIsAutoLoadMore(boolean isAutoLoadMore) {
-        this.isAutoLoadMore = isAutoLoadMore;
+    public void setAutoLoadMoreEnable(boolean isAutoLoadMoreEnable) {
+        this.isAutoLoadMoreEnable = isAutoLoadMoreEnable;
     }
 
     private OnScrollBottomListener onScrollBottomListener = new OnScrollBottomListener() {
         @Override
         public void onScorllBootom() {
-            if (isAutoLoadMore && isLoadMoreEnable && !isLoadingMore()) {
+            if (isAutoLoadMoreEnable && isLoadMoreEnable && !isLoadingMore()) {
                 // can check network here
                 loadMore();
             }

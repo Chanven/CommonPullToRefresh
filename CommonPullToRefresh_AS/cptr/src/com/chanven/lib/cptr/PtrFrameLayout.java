@@ -1041,7 +1041,7 @@ public class PtrFrameLayout extends ViewGroup {
     }
     
     private boolean isLoadingMore = false;
-    private boolean isAutoLoadMore = true;
+    private boolean isAutoLoadMoreEnable = true;
     private boolean isLoadMoreEnable = false;
     private boolean hasInitLoadMoreView = false;
 
@@ -1052,8 +1052,8 @@ public class PtrFrameLayout extends ViewGroup {
 
     private View mContentView;
 
-    public void setIsAutoLoadMore(boolean isAutoLoadMore) {
-        this.isAutoLoadMore = isAutoLoadMore;
+    public void setAutoLoadMoreEnable(boolean isAutoLoadMoreEnable) {
+        this.isAutoLoadMoreEnable = isAutoLoadMoreEnable;
     }
 
     public void setFooterView(ILoadMoreViewFactory factory) {
@@ -1123,7 +1123,7 @@ public class PtrFrameLayout extends ViewGroup {
     private OnScrollBottomListener onScrollBottomListener = new OnScrollBottomListener() {
         @Override
         public void onScorllBootom() {
-            if (isAutoLoadMore && isLoadMoreEnable && !isLoadingMore()) {
+            if (isAutoLoadMoreEnable && isLoadMoreEnable && !isLoadingMore()) {
                 // can check network here
                 loadMore();
             }

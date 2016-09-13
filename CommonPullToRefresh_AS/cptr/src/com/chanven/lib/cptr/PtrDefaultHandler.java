@@ -12,15 +12,13 @@ public abstract class PtrDefaultHandler implements PtrHandler {
                 final AbsListView absListView = (AbsListView) view;
                 return absListView.getChildCount() > 0
                         && (absListView.getFirstVisiblePosition() > 0 || absListView.getChildAt(0).getTop() <
-                        absListView
-                        .getPaddingTop());
+                        absListView.getPaddingTop());
             } else {
-//				return view.getScrollY() > 0;
+//              return view.getScrollY() > 0;
                 return ViewCompat.canScrollVertically(view, -1) || view.getScrollY() > 0;
             }
         } else {
-//			return view.canScrollVertically(-1);
-            return ViewCompat.canScrollVertically(view, -1);
+          return view.canScrollVertically(-1);
         }
     }
 

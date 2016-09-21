@@ -1152,8 +1152,12 @@ public class PtrFrameLayout extends ViewGroup {
         if (hasMore) {
             mLoadMoreView.showNormal();
         } else {
-            mLoadMoreView.showNomore();
+            setNoMoreData();
         }
+    }
+
+    public void setNoMoreData() {
+        mLoadMoreView.showNomore();
     }
 
     public boolean isLoadingMore() {

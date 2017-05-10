@@ -12,11 +12,11 @@ Android widget with pull to refresh for all the views,and support loadMore for L
 
 <div> <img src='https://raw.githubusercontent.com/Chanven/CommonPullToRefresh/master/raw/main.png' width='270px'/> </div>
 
-####ListView、RecyclerView截图
+#### ListView、RecyclerView截图
  <div> <img src='https://raw.githubusercontent.com/Chanven/CommonPullToRefresh/master/raw/listview.gif' width="270px"/>  <img src='https://raw.githubusercontent.com/Chanven/CommonPullToRefresh/master/raw/recyclerview.gif' width='270px'/> </div>
-####GridView截图
+#### GridView截图
  <div> <img src='https://raw.githubusercontent.com/Chanven/CommonPullToRefresh/master/raw/gridview.gif' width='270px'/> </div>
-####SwipeRefreshLayout截图
+#### SwipeRefreshLayout截图
 <div> <img src='https://raw.githubusercontent.com/Chanven/CommonPullToRefresh/master/raw/swipeListview.gif' width='270px'/> </div>
 # Usage
 Gradle / Android Studio
@@ -58,7 +58,7 @@ compile 'com.chanven.lib:cptr:1.1.0'
     默认为释放刷新，即`false`。
 	`mPtrFrame.setPullToRefresh(false)`
 
-#####上面是在`java`代码中配置，也可在`xml`文件中配置
+##### 上面是在`java`代码中配置，也可在`xml`文件中配置
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>

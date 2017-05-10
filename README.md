@@ -14,10 +14,13 @@ Android widget with pull to refresh for all the views,and support loadMore for L
 
 #### ListView、RecyclerView截图
  <div> <img src='https://raw.githubusercontent.com/Chanven/CommonPullToRefresh/master/raw/listview.gif' width="270px"/>  <img src='https://raw.githubusercontent.com/Chanven/CommonPullToRefresh/master/raw/recyclerview.gif' width='270px'/> </div>
+ 
 #### GridView截图
  <div> <img src='https://raw.githubusercontent.com/Chanven/CommonPullToRefresh/master/raw/gridview.gif' width='270px'/> </div>
+ 
 #### SwipeRefreshLayout截图
 <div> <img src='https://raw.githubusercontent.com/Chanven/CommonPullToRefresh/master/raw/swipeListview.gif' width='270px'/> </div>
+
 # Usage
 Gradle / Android Studio
 

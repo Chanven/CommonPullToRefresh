@@ -12,19 +12,22 @@ Android widget with pull to refresh for all the views,and support loadMore for L
 
 <div> <img src='https://raw.githubusercontent.com/Chanven/CommonPullToRefresh/master/raw/main.png' width='270px'/> </div>
 
-####ListView、RecyclerView截图
+#### ListView、RecyclerView截图
  <div> <img src='https://raw.githubusercontent.com/Chanven/CommonPullToRefresh/master/raw/listview.gif' width="270px"/>  <img src='https://raw.githubusercontent.com/Chanven/CommonPullToRefresh/master/raw/recyclerview.gif' width='270px'/> </div>
-####GridView截图
+ 
+#### GridView截图
  <div> <img src='https://raw.githubusercontent.com/Chanven/CommonPullToRefresh/master/raw/gridview.gif' width='270px'/> </div>
-####SwipeRefreshLayout截图
+ 
+#### SwipeRefreshLayout截图
 <div> <img src='https://raw.githubusercontent.com/Chanven/CommonPullToRefresh/master/raw/swipeListview.gif' width='270px'/> </div>
+
 # Usage
 Gradle / Android Studio
 
 ```
-compile 'com.chanven.lib:cptr:1.0.0'
+compile 'com.chanven.lib:cptr:1.1.0'
 ```
-#### 配置
+#### 下拉刷新配置
 
 有6个参数可配置:
 
@@ -58,7 +61,7 @@ compile 'com.chanven.lib:cptr:1.0.0'
     默认为释放刷新，即`false`。
 	`mPtrFrame.setPullToRefresh(false)`
 
-#####上面是在`java`代码中配置，也可在`xml`文件中配置
+##### 上面是在`java`代码中配置，也可在`xml`文件中配置
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -118,9 +121,17 @@ public interface PtrHandler {
     public void onRefreshBegin(final PtrFrameLayout frame);
 }
 ```
+#### 加载更多配置
+* 是否需要加载更多
+  默认`false`
+  `mPtrFrame.setLoadMoreEnable(true)`
+* 是否自动加载
+  默认`true`
+  `mPtrFrame.setAutoLoadMoreEnable(true)`
+
 #### Header、Footer样式
-* Header	实现接口`PtrUIHandler`，已有默认实现`PtrClassicDefaultHeader`
-* Footer	实现接口`ILoadViewMoreFactory`，已有默认实现`DefaultLoadMoreFooter`
+* Header	实现接口`PtrUIHandler`，已有默认实现`PtrClassicDefaultHeader`，并通过`PtrFrameLayout.setHeaderView(View header)`设置
+* Footer	实现接口`ILoadMoreViewFactory`，已有默认实现`DefaultLoadMoreViewFooter`，并通过`PtrFrameLayout.setFooterView(ILoadMoreViewFactory factory)`设置
 
 ## 常见问题
 
